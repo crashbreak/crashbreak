@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['michal.janeczek@ymail.com']
   spec.summary       = %q{Take a break from crashes!}
   spec.description   = %q{Maybe later... :)}
-  spec.homepage      = 'crashbreak.com'
+  spec.homepage      = 'http://crashbreak.com'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
