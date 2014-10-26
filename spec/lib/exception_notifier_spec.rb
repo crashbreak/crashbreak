@@ -4,7 +4,7 @@ describe Crashbreak::ExceptionNotifier do
   let(:error_name) { error.to_s }
   let(:error_message) { 'example_error_message'}
 
-  context 'without decorators' do
+  context 'without formatters' do
     let(:expected_basic_hash) do
       { name: error_name, message: error_message }
     end
@@ -15,26 +15,26 @@ describe Crashbreak::ExceptionNotifier do
     end
   end
 
-  context 'with decorators' do
-    let(:expected_decorated_hash) { basic_hash.merge(decorator_hash) }
+  context 'with formatters' do
+    let(:expected_formatted_hash) { basic_hash.merge(formatter_hash) }
 
     let(:basic_hash) do
       { name: error_name, message: error_message }
     end
 
-    let(:decorator_hash) do
-      { additional_decorated_key: :example, additional_decorated_data: { looks_good: :yes } }
+    let(:formatter_hash) do
+      { additional_key: :example, additional_data: { looks_good: :yes } }
     end
 
-    let(:decorator) { double(:decorator) }
+    let(:formatter) { double(:format) }
 
     before(:each) do
-      allow(decorator).to receive(:format).with(error).and_return(decorator_hash)
-      allow(subject).to receive(:formatters).and_return([decorator])
+      allow(formatter).to receive(:format).with(error).and_return(formatter_hash)
+      allow(subject).to receive(:formatters).and_return([formatter])
     end
 
-    it 'sends decorated error' do
-      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_decorated_hash)
+    it 'sends formatted error' do
+      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_formatted_hash)
       subject.notify error
     end
   end

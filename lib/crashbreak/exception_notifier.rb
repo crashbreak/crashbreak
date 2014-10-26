@@ -12,8 +12,8 @@ module Crashbreak
 
     def format(exception)
       {}.tap do |exception_hash|
-        formatters.each do |decorator|
-          exception_hash.merge!(decorator.format exception)
+        formatters.each do |formatter|
+          exception_hash.merge!(formatter.format exception)
         end
       end
     end
