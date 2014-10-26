@@ -19,7 +19,7 @@ module Crashbreak
     end
 
     def basic_information(exception)
-      { name: exception.to_s, message: exception.message}
+      { name: exception.to_s, message: exception.message, backtrace: exception.backtrace }
     end
 
     def formatters

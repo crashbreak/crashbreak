@@ -4,23 +4,21 @@ describe Crashbreak::ExceptionNotifier do
   let(:error_name) { error.to_s }
   let(:error_message) { 'example_error_message'}
 
-  context 'without formatters' do
-    let(:expected_basic_hash) do
-      { name: error_name, message: error_message }
-    end
+  before(:each) { allow(error).to receive(:backtrace).and_return(%w(example backtrace)) }
 
+  let(:exception_basic_hash) do
+    { name: error_name, message: error_message, backtrace: error.backtrace }
+  end
+
+  context 'without formatters' do
     it 'sends pure error' do
-      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_basic_hash)
+      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash)
       subject.notify error
     end
   end
 
   context 'with formatters' do
-    let(:expected_formatted_hash) { basic_hash.merge(formatter_hash) }
-
-    let(:basic_hash) do
-      { name: error_name, message: error_message }
-    end
+    let(:expected_formatted_hash) { exception_basic_hash.merge(formatter_hash) }
 
     let(:formatter_hash) do
       { additional_key: :example, additional_data: { looks_good: :yes } }
