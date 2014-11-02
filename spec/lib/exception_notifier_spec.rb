@@ -11,6 +11,7 @@ describe Crashbreak::ExceptionNotifier do
   end
 
   context 'without formatters' do
+    before(:each) { allow(subject).to receive(:formatters).and_return([]) }
     it 'sends pure error' do
       expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash)
       subject.notify error
@@ -24,7 +25,7 @@ describe Crashbreak::ExceptionNotifier do
       { additional_key: :example, additional_data: { looks_good: :yes } }
     end
 
-    let(:formatter) { double(:format) }
+    let(:formatter) { double(:formatter) }
 
     before(:each) do
       allow(formatter).to receive(:format).with(error).and_return(formatter_hash)
