@@ -4,10 +4,11 @@ describe 'Sending error report to server' do
 
   let(:project_token) { 'example_project_token' }
   let(:example_error) { StandardError.new }
+  let(:example_request) { double(:example_request, action: 'example_action_name' )}
 
   before(:each) do
     Crashbreak.configure.api_key = project_token
-    Crashbreak.configure.error_formatters = [Crashbreak::EnvironmentVariablesFormatter.new, TestErrorFormatter.new]
+    Crashbreak.configure.error_formatters = [Crashbreak::SummaryFormatter.new, Crashbreak::EnvironmentVariablesFormatter.new, TestErrorFormatter.new]
 
     allow(crashing_app).to receive(:call).and_raise(example_error)
     allow(example_error).to receive(:backtrace).and_return(%w(example backtrace))
@@ -19,8 +20,10 @@ describe 'Sending error report to server' do
   end
 
   let(:error_report_hash) do
-    { name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace,
-      envariament: 'test', envariament_variables: ENV, test: :formatter }
+    {
+        name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace, envariament: 'test',
+        summary: { action: example_request.action }, envariament_variables: ENV, test: :formatter
+    }
   end
 
   it 'sends error report on exception' do
