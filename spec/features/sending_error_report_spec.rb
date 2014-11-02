@@ -20,7 +20,7 @@ describe 'Sending error report to server' do
 
   let(:error_report_hash) do
     { name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace,
-      envariament: ENV, test: :formatter }
+      envariament: 'test', envariament_variables: ENV, test: :formatter }
   end
 
   it 'sends error report on exception' do

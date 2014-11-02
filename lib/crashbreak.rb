@@ -1,6 +1,7 @@
 require 'rails'
 require 'crashbreak/version'
 require 'crashbreak/exception_notifier'
+require 'crashbreak/formatters/basic_information_formatter'
 require 'crashbreak/formatters/environment_variables_formatter'
 require 'crashbreak/config/configurator'
 require 'crashbreak/config/configurable'

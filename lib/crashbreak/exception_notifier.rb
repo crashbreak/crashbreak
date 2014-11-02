@@ -7,10 +7,6 @@ module Crashbreak
     private
 
     def format_exception(exception)
-      basic_information(exception).merge format(exception)
-    end
-
-    def format(exception)
       {}.tap do |exception_hash|
         formatters.each do |formatter|
           exception_hash.merge!(formatter.format exception)
@@ -18,12 +14,8 @@ module Crashbreak
       end
     end
 
-    def basic_information(exception)
-      { name: exception.to_s, message: exception.message, backtrace: exception.backtrace }
-    end
-
     def formatters
-      Crashbreak.configure.error_formatters
+      [BasicInformationFormatter.new] + Crashbreak.configure.error_formatters
     end
 
     def exceptions_repository

@@ -7,11 +7,11 @@ describe Crashbreak::ExceptionNotifier do
   before(:each) { allow(error).to receive(:backtrace).and_return(%w(example backtrace)) }
 
   let(:exception_basic_hash) do
-    { name: error_name, message: error_message, backtrace: error.backtrace }
+    { name: error_name, message: error_message, backtrace: error.backtrace, envariament: ENV['RACK_ENV'] }
   end
 
   context 'without formatters' do
-    before(:each) { allow(subject).to receive(:formatters).and_return([]) }
+    before(:each) { allow_any_instance_of(Crashbreak::Configurator).to receive(:error_formatters).and_return([]) }
     it 'sends pure error' do
       expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash)
       subject.notify error
@@ -29,7 +29,7 @@ describe Crashbreak::ExceptionNotifier do
 
     before(:each) do
       allow(formatter).to receive(:format).with(error).and_return(formatter_hash)
-      allow(subject).to receive(:formatters).and_return([formatter])
+      allow_any_instance_of(Crashbreak::Configurator).to receive(:error_formatters).and_return([formatter])
     end
 
     it 'sends formatted error' do
