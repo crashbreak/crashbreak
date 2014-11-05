@@ -13,7 +13,7 @@ module Crashbreak
     end
 
     def request_url
-      "#{BASE_URL}/projects/#{project_token}/exceptions"
+      "#{BASE_URL}/projects/#{project_token}/errors"
     end
 
     def project_token

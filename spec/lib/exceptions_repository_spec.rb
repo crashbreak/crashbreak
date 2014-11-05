@@ -12,7 +12,7 @@ describe Crashbreak::ExceptionsRepository do
   end
 
   let!(:create_exception_request) do
-    stub_request(:post, "#{described_class::BASE_URL}/projects/#{project_token}/exceptions").
+    stub_request(:post, "#{described_class::BASE_URL}/projects/#{project_token}/errors").
         with(body: error_report_hash.to_json).to_return(status: 200)
   end
 
