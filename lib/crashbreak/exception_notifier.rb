@@ -9,7 +9,7 @@ module Crashbreak
     def format_exception(exception)
       {}.tap do |exception_hash|
         formatters.each do |formatter|
-          exception_hash.merge!(formatter.format exception)
+          exception_hash.deep_merge!(formatter.format exception)
         end
       end
     end

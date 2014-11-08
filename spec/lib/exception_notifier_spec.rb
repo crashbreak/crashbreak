@@ -1,13 +1,13 @@
 describe Crashbreak::ExceptionNotifier do
   subject { described_class.new }
   let(:error) { StandardError.new error_message }
-  let(:error_name) { error.to_s }
+  let(:error_name) { error.class.to_s }
   let(:error_message) { 'example_error_message'}
 
   before(:each) { allow(error).to receive(:backtrace).and_return(%w(example backtrace)) }
 
   let(:exception_basic_hash) do
-    { name: error_name, message: error_message, backtrace: error.backtrace, envariament: ENV['RACK_ENV'] }
+    { name: error_name, message: error_message, backtrace: error.backtrace, environment: ENV['RACK_ENV'] }
   end
 
   context 'without formatters' do

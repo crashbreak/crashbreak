@@ -1,5 +1,5 @@
 class TestErrorFormatter
   def format(error)
-    { test: :formatter }
+    { additional_data: { test: :formatter } }
   end
 end

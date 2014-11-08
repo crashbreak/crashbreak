@@ -8,7 +8,10 @@ describe Crashbreak::ExceptionsRepository do
   end
 
   let(:error_report_hash) do
-    { name: 'Example name', message: 'Example message', backtrace: [%w(example backtrace)], additional_hash: { example: :true }}
+    {
+        name: 'Example name', message: 'Example message', backtrace: [%w(example backtrace)],
+        additional_data: { additional_hash: { example: :true }, second: { test: 'true' } }
+    }
   end
 
   let!(:create_exception_request) do

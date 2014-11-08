@@ -1,9 +1,13 @@
 module Crashbreak
   class ExceptionsRepository
-    BASE_URL = 'http://crashbreak.herokuapp.com'
+    BASE_URL = 'http://crashbreak.herokuapp.com/api'
 
     def create(error_report_hash)
-      connection.post request_url, error_report_hash.to_json
+      connection.post do |req|
+        req.url request_url
+        req.body = error_report_hash.to_json
+        req.headers['Content-Type'] = 'application/json'
+      end
     end
 
     private

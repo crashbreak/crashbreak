@@ -21,8 +21,8 @@ describe 'Sending error report to server' do
 
   let(:error_report_hash) do
     {
-        name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace, envariament: 'test',
-        summary: { action: example_request.action }, envariament_variables: ENV, test: :formatter
+        name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace, environment: 'test',
+        summary: { action: example_request.action }, additional_data: { environment: ENV.to_hash, test: :formatter }
     }
   end
 
