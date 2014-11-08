@@ -1,7 +1,11 @@
 module Crashbreak
   class SummaryFormatter
     def format(exception)
-      { summary: { action: 'example_action_name' }}
+      { summary: summary(exception) }
+    end
+
+    def summary(exception)
+      {}
     end
   end
 end
