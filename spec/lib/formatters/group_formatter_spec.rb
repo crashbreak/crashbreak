@@ -1,15 +1,15 @@
-describe Crashbreak::GroupFormatter do
-  class GroupTestFormatter < Crashbreak::GroupFormatter
-    group_name :example_group
+describe Crashbreak::HashFormatter do
+  class TestHashFormatter < Crashbreak::HashFormatter
+    hash_name :example_group
 
-    def group_hash
+    def hash_value
       { example: 'true' }
     end
   end
 
-  subject { GroupTestFormatter.new }
+  subject { TestHashFormatter.new }
 
   it 'wraps hash in additional_data and group_name key' do
-    expect(subject.serialize).to eq(additional_data: { example_group:  subject.group_hash })
+    expect(subject.serialize).to eq(additional_data: { example_group:  subject.hash_value })
   end
 end

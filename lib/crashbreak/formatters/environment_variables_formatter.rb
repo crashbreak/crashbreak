@@ -1,8 +1,8 @@
 module Crashbreak
-  class EnvironmentVariablesFormatter < GroupFormatter
-    group_name :environment
+  class EnvironmentVariablesFormatter < HashFormatter
+    hash_name :environment
 
-    def group_hash
+    def hash_value
       ENV.to_hash
     end
   end

@@ -1,7 +1,7 @@
-class TestErrorFormatter < Crashbreak::GroupFormatter
-  group_name :test
+class TestErrorFormatter < Crashbreak::HashFormatter
+  hash_name :test
 
-  def group_hash
+  def hash_value
     { formatter: true }
   end
 end
