@@ -10,8 +10,8 @@ module Crashbreak
       end
     end
 
-    def format(exception)
-      { additional_data: { self.class.get_group_name => group_hash(exception) } }
+    def serialize
+      { additional_data: { self.class.get_group_name => group_hash } }
     end
   end
 end

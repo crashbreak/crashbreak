@@ -1,6 +1,6 @@
 module Crashbreak
   class DefaultSummaryFormatter < SummaryFormatter
-    def summary(exception)
+    def summary
       { action: 'example_action_name' }
     end
   end

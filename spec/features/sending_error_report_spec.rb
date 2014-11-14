@@ -8,7 +8,7 @@ describe 'Sending error report to server' do
 
   before(:each) do
     Crashbreak.configure.api_key = project_token
-    Crashbreak.configure.error_formatters = [Crashbreak::DefaultSummaryFormatter.new, Crashbreak::EnvironmentVariablesFormatter.new, TestErrorFormatter.new]
+    Crashbreak.configure.error_serializers = [Crashbreak::DefaultSummaryFormatter.new, Crashbreak::EnvironmentVariablesFormatter.new, TestErrorFormatter.new]
 
     allow(crashing_app).to receive(:call).and_raise(example_error)
     allow(example_error).to receive(:backtrace).and_return(%w(example backtrace))

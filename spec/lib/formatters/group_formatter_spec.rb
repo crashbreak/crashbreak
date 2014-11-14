@@ -2,7 +2,7 @@ describe Crashbreak::GroupFormatter do
   class GroupTestFormatter < Crashbreak::GroupFormatter
     group_name :example_group
 
-    def group_hash(exception)
+    def group_hash
       { example: 'true' }
     end
   end
@@ -10,6 +10,6 @@ describe Crashbreak::GroupFormatter do
   subject { GroupTestFormatter.new }
 
   it 'wraps hash in additional_data and group_name key' do
-    expect(subject.format(nil)).to eq(additional_data: { example_group:  subject.group_hash(nil) })
+    expect(subject.serialize).to eq(additional_data: { example_group:  subject.group_hash })
   end
 end

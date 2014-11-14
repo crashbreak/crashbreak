@@ -1,21 +1,21 @@
 module Crashbreak
   class ExceptionNotifier
-    def notify(exception)
-      exceptions_repository.create format_exception(exception)
+    def notify
+      exceptions_repository.create serialize_exception
     end
 
     private
 
-    def format_exception(exception)
+    def serialize_exception
       {}.tap do |exception_hash|
-        formatters.each do |formatter|
-          exception_hash.deep_merge!(formatter.format exception)
+        serializers.each do |serializer|
+          exception_hash.deep_merge!(serializer.serialize)
         end
       end
     end
 
-    def formatters
-      [BasicInformationFormatter.new] + Crashbreak.configure.error_formatters
+    def serializers
+      [BasicInformationFormatter.new] + Crashbreak.configure.error_serializers
     end
 
     def exceptions_repository

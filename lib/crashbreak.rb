@@ -1,5 +1,6 @@
 require 'rails'
 require 'faraday'
+require 'request_store'
 require 'crashbreak/version'
 require 'crashbreak/exception_notifier'
 require 'crashbreak/formatters/summary_formatter'

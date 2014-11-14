@@ -1,10 +1,10 @@
 module Crashbreak
   class SummaryFormatter
-    def format(exception)
-      { summary: summary(exception) }
+    def serialize
+      { summary: summary }
     end
 
-    def summary(exception)
+    def summary
       {}
     end
   end

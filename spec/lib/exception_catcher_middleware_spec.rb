@@ -11,9 +11,13 @@ describe Crashbreak::ExceptionCatcherMiddleware do
   context 'app that raises exception' do
     subject { described_class.new app_with_crashes }
 
-    it 'catches exception' do
-      expect_any_instance_of(Crashbreak::ExceptionNotifier).to receive(:notify).with(error)
+    before(:each) do
+      expect_any_instance_of(Crashbreak::ExceptionNotifier).to receive(:notify).and_return(true)
       expect{ subject.call(:bad_request) }.to raise_error(StandardError)
+    end
+
+    it 'sets exception and request in store' do
+      expect(RequestStore.store[:exception]).to eq(error)
     end
   end
 
@@ -21,7 +25,7 @@ describe Crashbreak::ExceptionCatcherMiddleware do
     subject { described_class.new app_without_crashes }
 
     it 'does nothing' do
-      expect_any_instance_of(Crashbreak::ExceptionNotifier).to_not receive(:notify)
+      expect_any_instance_of(Crashbreak::ExceptionNotifier).to_not receive(:notify).and_return(true)
       expect(subject.call(:request)).to eq(:ok)
     end
   end

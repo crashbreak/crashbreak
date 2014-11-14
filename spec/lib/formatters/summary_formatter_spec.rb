@@ -1,6 +1,6 @@
 describe Crashbreak::SummaryFormatter do
   class SummaryTestFormatter < Crashbreak::SummaryFormatter
-    def summary(exception)
+    def summary
       { example: 'true' }
     end
   end
@@ -8,6 +8,6 @@ describe Crashbreak::SummaryFormatter do
   subject { SummaryTestFormatter.new }
 
   it 'wraps summary hash' do
-    expect(subject.format(nil)).to eq(summary: subject.summary(nil))
+    expect(subject.serialize).to eq(summary: subject.summary)
   end
 end

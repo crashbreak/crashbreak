@@ -4,37 +4,40 @@ describe Crashbreak::ExceptionNotifier do
   let(:error_name) { error.class.to_s }
   let(:error_message) { 'example_error_message'}
 
-  before(:each) { allow(error).to receive(:backtrace).and_return(%w(example backtrace)) }
+  before(:each) do
+    allow(error).to receive(:backtrace).and_return(%w(example backtrace))
+    RequestStore[:exception] = error
+  end
 
   let(:exception_basic_hash) do
     { name: error_name, message: error_message, backtrace: error.backtrace, environment: ENV['RACK_ENV'] }
   end
 
-  context 'without formatters' do
-    before(:each) { allow_any_instance_of(Crashbreak::Configurator).to receive(:error_formatters).and_return([]) }
+  context 'without additional serializers' do
+    before(:each) { allow_any_instance_of(Crashbreak::Configurator).to receive(:error_serializers).and_return([]) }
     it 'sends pure error' do
       expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash)
-      subject.notify error
+      subject.notify
     end
   end
 
-  context 'with formatters' do
-    let(:expected_formatted_hash) { exception_basic_hash.merge(formatter_hash) }
+  context 'with additional serializers' do
+    let(:expected_hash) { exception_basic_hash.merge(serializer_hash) }
 
-    let(:formatter_hash) do
+    let(:serializer_hash) do
       { additional_key: :example, additional_data: { looks_good: :yes } }
     end
 
-    let(:formatter) { double(:formatter) }
+    let(:serializer) { double(:serializer) }
 
     before(:each) do
-      allow(formatter).to receive(:format).with(error).and_return(formatter_hash)
-      allow_any_instance_of(Crashbreak::Configurator).to receive(:error_formatters).and_return([formatter])
+      allow(serializer).to receive(:serialize).and_return(serializer_hash)
+      allow_any_instance_of(Crashbreak::Configurator).to receive(:error_serializers).and_return([serializer])
     end
 
     it 'sends formatted error' do
-      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_formatted_hash)
-      subject.notify error
+      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_hash)
+      subject.notify
     end
   end
 end
