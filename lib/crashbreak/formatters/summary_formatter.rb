@@ -1,5 +1,5 @@
 module Crashbreak
-  class SummaryFormatter
+  class SummaryFormatter < BasicFormatter
     def serialize
       { summary: summary }
     end

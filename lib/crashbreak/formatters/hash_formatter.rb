@@ -1,5 +1,5 @@
 module Crashbreak
-  class HashFormatter
+  class HashFormatter < BasicFormatter
     class << self
       def hash_name(value)
         @hash_name = value
