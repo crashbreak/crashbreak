@@ -1,7 +1,13 @@
 module Crashbreak
   class DefaultSummaryFormatter < SummaryFormatter
     def summary
-      { action: 'example_action_name' }
+      { action: request.action }
+    end
+
+    private
+
+    def request
+      RequestStore.store[:request]
     end
   end
 end

@@ -1,0 +1,3 @@
+class TestError < StandardError
+
+end

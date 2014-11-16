@@ -3,15 +3,17 @@ describe 'Sending error report to server' do
   let(:crashing_app) { double(:crashing_app)}
 
   let(:project_token) { 'example_project_token' }
-  let(:example_error) { StandardError.new }
+  let(:example_error) { TestError.new }
   let(:example_request) { double(:example_request, action: 'example_action_name' )}
+  let(:summary_formatter) { Crashbreak::DefaultSummaryFormatter.new }
 
   before(:each) do
     Crashbreak.configure.api_key = project_token
-    Crashbreak.configure.error_serializers = [Crashbreak::DefaultSummaryFormatter.new, Crashbreak::EnvironmentVariablesFormatter.new, TestErrorFormatter.new]
+    Crashbreak.configure.error_serializers = [summary_formatter, Crashbreak::EnvironmentVariablesFormatter.new, TestErrorFormatter.new]
 
     allow(crashing_app).to receive(:call).and_raise(example_error)
     allow(example_error).to receive(:backtrace).and_return(%w(example backtrace))
+    allow(summary_formatter).to receive(:request).and_return(example_request)
   end
 
   let!(:create_exception_request) do
@@ -27,7 +29,7 @@ describe 'Sending error report to server' do
   end
 
   it 'sends error report on exception' do
-    expect{ catching_middleware.call(:env) }.to raise_error(StandardError)
+    expect{ catching_middleware.call(:env) }.to raise_error(TestError)
     expect(create_exception_request).to have_been_made
   end
 end
