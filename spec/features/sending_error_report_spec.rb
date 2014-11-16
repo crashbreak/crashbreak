@@ -6,6 +6,8 @@ describe 'Sending error report to server' do
   let(:example_error) { TestError.new }
   let(:example_request) { double(:example_request, action: 'example_action_name' )}
   let(:summary_formatter) { Crashbreak::DefaultSummaryFormatter.new }
+  let(:example_controller) { double(:example_controller) }
+  let(:env) { Hash['action_controller.instance' => example_controller ]}
 
   before(:each) do
     Crashbreak.configure.api_key = project_token
@@ -24,12 +26,12 @@ describe 'Sending error report to server' do
   let(:error_report_hash) do
     {
         name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace, environment: 'test',
-        summary: { action: example_request.action }, additional_data: { environment: ENV.to_hash, test: { formatter: true } }
+        summary: { action: example_request.action, controller_name: example_controller.class.to_s }, additional_data: { environment: ENV.to_hash, test: { formatter: true } }
     }
   end
 
   it 'sends error report on exception' do
-    expect{ catching_middleware.call(:env) }.to raise_error(TestError)
+    expect{ catching_middleware.call(env) }.to raise_error(TestError)
     expect(create_exception_request).to have_been_made
   end
 end

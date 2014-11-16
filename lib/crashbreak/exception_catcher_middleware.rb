@@ -9,7 +9,8 @@ module Crashbreak
         @app.call(env)
       rescue ::Exception => exception
         RequestStore.store[:exception] = exception
-        RequestStore.store[:request] = request(env)
+        store_variables_from_env env
+
         exception_notifier.notify
         raise
       end
@@ -19,6 +20,11 @@ module Crashbreak
 
     def exception_notifier
       Crashbreak.configure.exception_notifier
+    end
+
+    def store_variables_from_env(env)
+      RequestStore.store[:request] = request(env)
+      RequestStore.store[:controller] = env['action_controller.instance']
     end
 
     def request(env)

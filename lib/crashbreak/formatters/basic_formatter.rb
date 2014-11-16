@@ -10,5 +10,9 @@ module Crashbreak
     def request
       RequestStore.store[:request]
     end
+
+    def controller
+      RequestStore.store[:controller]
+    end
   end
 end
