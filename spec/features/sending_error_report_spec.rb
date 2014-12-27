@@ -4,7 +4,7 @@ describe 'Sending error report to server' do
 
   let(:project_token) { 'example_project_token' }
   let(:example_error) { TestError.new }
-  let(:example_request) { double(:example_request, action: 'example_action_name' )}
+  let(:example_request) { double(:example_request, env: { 'PATH_INFO' => 'example_action_name', 'REQUEST_URI' => 'url', 'HTTP_USER_AGENT' => 'agent' } )}
   let(:summary_formatter) { Crashbreak::DefaultSummaryFormatter.new }
   let(:example_controller) { double(:example_controller) }
   let(:env) { Hash['action_controller.instance' => example_controller ]}
@@ -26,7 +26,9 @@ describe 'Sending error report to server' do
   let(:error_report_hash) do
     {
         name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace, environment: 'test',
-        summary: { action: example_request.action, controller_name: example_controller.class.to_s }, additional_data: { environment: ENV.to_hash, test: { formatter: true } }
+        summary: { action: example_request.env['PATH_INFO'], controller_name: example_controller.class.to_s,
+                   file: example_error.backtrace[0], url: example_request.env['REQUEST_URI'], user_agent: example_request.env['HTTP_USER_AGENT'] },
+        additional_data: { environment: ENV.to_hash, test: { formatter: true } }
     }
   end
 
