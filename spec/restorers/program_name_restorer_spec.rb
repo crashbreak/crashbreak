@@ -1,4 +1,4 @@
-describe ProgramNameRestorer do
+describe Crashbreak::ProgramNameRestorer do
   subject { described_class.new }
   let(:program_name) { 'crashbreak' }
 

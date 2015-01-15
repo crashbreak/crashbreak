@@ -1,14 +1,16 @@
-class ProgramNameDumper
-  def dump
-    dump_file.tap do |file|
-      file.puts $PROGRAM_NAME
-      file.close
+module Crashbreak
+  class ProgramNameDumper
+    def dump
+      dump_file.tap do |file|
+        file.puts $PROGRAM_NAME
+        file.close
+      end
     end
-  end
 
-  private
+    private
 
-  def dump_file
-    File.new('program_name.dump', 'w')
+    def dump_file
+      File.new('program_name.dump', 'w')
+    end
   end
 end

@@ -1,4 +1,4 @@
-describe ProgramNameDumper do
+describe Crashbreak::ProgramNameDumper do
   subject { described_class.new }
   let(:file_path) { subject.dump.path }
 
