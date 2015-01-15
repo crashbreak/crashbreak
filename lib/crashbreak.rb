@@ -14,6 +14,8 @@ require 'crashbreak/config/configurable'
 require 'crashbreak/exception_catcher_middleware'
 require 'crashbreak/exceptions_repository'
 
+require 'dumpers/program_name_dumper'
+
 module Crashbreak
   extend Configurable
 
