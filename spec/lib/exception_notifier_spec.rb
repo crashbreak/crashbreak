@@ -10,7 +10,7 @@ describe Crashbreak::ExceptionNotifier do
     allow_any_instance_of(described_class).to receive(:dumpers).and_return([])
 
     RequestStore[:exception] = error
-    RequestStore[:request] = double(:request, env: :example_request_data )
+    RequestStore[:request] = double(:request, env: { request: :example_request_data } )
   end
 
   let(:exception_basic_hash) do
@@ -27,7 +27,7 @@ describe Crashbreak::ExceptionNotifier do
       let(:expected_hash) { exception_basic_hash.merge(dumpers_hash) }
 
       let(:dumpers_hash) do
-        { dumpers_data: { 'RequestDumper' => :example_request_data } }
+        { dumpers_data: { 'RequestDumper' => { request: 'example_request_data' } } }
       end
 
       before(:each) do
