@@ -15,7 +15,7 @@ describe 'Sending error report to server' do
 
     allow(crashing_app).to receive(:call).and_raise(example_error)
     allow(example_error).to receive(:backtrace).and_return(%w(example backtrace))
-    allow(summary_formatter).to receive(:request).and_return(example_request)
+    allow_any_instance_of(Crashbreak::BasicFormatter).to receive(:request).and_return(example_request)
   end
 
   let!(:create_exception_request) do
@@ -28,7 +28,8 @@ describe 'Sending error report to server' do
         name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace, environment: 'test',
         summary: { action: example_request.env['PATH_INFO'], controller_name: example_controller.class.to_s,
                    file: example_error.backtrace[0], url: example_request.env['REQUEST_URI'], user_agent: example_request.env['HTTP_USER_AGENT'] },
-        additional_data: { environment: ENV.to_hash, test: { formatter: true } }
+        additional_data: { environment: ENV.to_hash, test: { formatter: true } },
+        dumpers_data: { 'RequestDumper' => example_request.env }
     }
   end
 

@@ -6,18 +6,38 @@ describe Crashbreak::ExceptionNotifier do
 
   before(:each) do
     allow(error).to receive(:backtrace).and_return(%w(example backtrace))
+    allow_any_instance_of(Crashbreak::Configurator).to receive(:error_serializers).and_return([])
+    allow_any_instance_of(described_class).to receive(:dumpers).and_return([])
+
     RequestStore[:exception] = error
+    RequestStore[:request] = double(:request, env: :example_request_data )
   end
 
   let(:exception_basic_hash) do
-    { name: error_name, message: error_message, backtrace: error.backtrace, environment: ENV['RACK_ENV'] }
+    { name: error_name, message: error_message, backtrace: error.backtrace, environment: ENV['RACK_ENV'], dumpers_data: {} }
   end
 
   context 'without additional serializers' do
-    before(:each) { allow_any_instance_of(Crashbreak::Configurator).to receive(:error_serializers).and_return([]) }
     it 'sends pure error' do
       expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash)
       subject.notify
+    end
+
+    context 'with dumpers' do
+      let(:expected_hash) { exception_basic_hash.merge(dumpers_hash) }
+
+      let(:dumpers_hash) do
+        { dumpers_data: { 'RequestDumper' => :example_request_data } }
+      end
+
+      before(:each) do
+        allow_any_instance_of(described_class).to receive(:dumpers).and_return([RequestDumper.new])
+      end
+
+      it 'sends dump data' do
+        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_hash)
+        subject.notify
+      end
     end
   end
 

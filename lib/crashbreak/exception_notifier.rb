@@ -8,10 +8,19 @@ module Crashbreak
 
     def serialize_exception
       {}.tap do |exception_hash|
-        serializers.each do |serializer|
-          exception_hash.deep_merge!(serializer.serialize)
-        end
+        serializers.each { |serializer| exception_hash.deep_merge!(serializer.serialize) }
+        exception_hash[:dumpers_data] = dumpers_data
       end
+    end
+
+    def dumpers_data
+      dumpers.map do |dumper|
+        [dumper.class.to_s, dumper.dump]
+      end.to_h
+    end
+
+    def dumpers
+      [RequestDumper.new]
     end
 
     def serializers
