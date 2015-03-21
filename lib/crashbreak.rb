@@ -15,11 +15,9 @@ require 'crashbreak/exception_catcher_middleware'
 require 'crashbreak/exceptions_repository'
 require 'crashbreak/dumpers_data_repository'
 
-require 'dumpers/program_name_dumper'
 require 'dumpers/pg_dumper'
 require 'dumpers/request_dumper'
 
-require 'restorers/program_name_restorer'
 require 'restorers/pg_restorer'
 require 'restorers/state_restorer'
 
