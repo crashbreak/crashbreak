@@ -7,7 +7,7 @@ describe StateRestorer do
     Crashbreak.configure.api_key = project_token
 
     stub_request(:get, "#{Crashbreak::DumpersDataRepository::BASE_URL}/projects/#{project_token}/errors/#{error_id}/dumpers_data").
-        to_return(status: 200, body: dumpers_data)
+        to_return(status: 200, body: dumpers_data.to_json)
   end
 
   let(:dumpers_data) { Hash['TestDumper' => 'test_data'] }

@@ -7,13 +7,17 @@ module Crashbreak
     end
 
     def dumpers_data
+      JSON.parse request_body
+    end
+
+    private
+
+    def request_body
       connection.get do |req|
         req.url request_url
         req.headers['Content-Type'] = 'application/json'
       end.body
     end
-
-    private
 
     def connection
       Faraday.new(url: request_url)
