@@ -21,6 +21,7 @@ require 'dumpers/request_dumper'
 
 require 'restorers/program_name_restorer'
 require 'restorers/pg_restorer'
+require 'restorers/state_restorer'
 
 module Crashbreak
   extend Configurable
