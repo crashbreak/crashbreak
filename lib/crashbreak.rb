@@ -14,6 +14,7 @@ require 'crashbreak/config/configurable'
 require 'crashbreak/exception_catcher_middleware'
 require 'crashbreak/exceptions_repository'
 require 'crashbreak/dumpers_data_repository'
+require 'crashbreak/request_parser'
 
 require 'dumpers/pg_dumper'
 require 'dumpers/request_dumper'

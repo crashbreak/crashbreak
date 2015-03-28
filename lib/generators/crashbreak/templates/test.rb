@@ -1,9 +1,11 @@
 describe 'error id: <%= error_id %>', type: :request do
 
   let(:restorers_data) { StateRestorer.new('<%= error_id %>').restore }
-  let(:request) { restorers_data[:request] }
+  let(:request_parser) { Crashbreak::RequestParser.new restorers_data[:request] }
 
   it 'sends request' do
-    get request['PATH_INFO']
+    request_parser.request_data do |request_method, url, body, headers|
+      method(request_method).call url, body, headers
+    end
   end
 end
