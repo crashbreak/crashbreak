@@ -1,6 +1,7 @@
 require 'rails'
 require 'faraday'
 require 'request_store'
+require 'octokit'
 require 'crashbreak/version'
 require 'crashbreak/exception_notifier'
 require 'crashbreak/formatters/basic_formatter'
@@ -15,6 +16,7 @@ require 'crashbreak/exception_catcher_middleware'
 require 'crashbreak/exceptions_repository'
 require 'crashbreak/dumpers_data_repository'
 require 'crashbreak/request_parser'
+require 'crashbreak/github_integration_service'
 
 require 'dumpers/pg_dumper'
 require 'dumpers/request_dumper'
@@ -34,5 +36,9 @@ module Crashbreak
     rake_tasks do
       load 'tasks/crashbreak.rake'
     end
+  end
+
+  def self.root
+    File.expand_path '../..', __FILE__
   end
 end

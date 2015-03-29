@@ -22,7 +22,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rails'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'deepstruct'
 
   spec.add_runtime_dependency 'faraday', '>= 0'
   spec.add_runtime_dependency 'request_store', '>= 0'
+  spec.add_runtime_dependency 'octokit', '>= 0'
 end

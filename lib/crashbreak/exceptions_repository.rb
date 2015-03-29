@@ -3,14 +3,18 @@ module Crashbreak
     BASE_URL = 'http://crashbreak.herokuapp.com/api'
 
     def create(error_report_hash)
+      JSON.parse(post_request(error_report_hash).body)['id']
+    end
+
+    private
+
+    def post_request(error_report_hash)
       connection.post do |req|
         req.url request_url
         req.body = error_report_hash.to_json
         req.headers['Content-Type'] = 'application/json'
       end
     end
-
-    private
 
     def connection
       Faraday.new(url: request_url)

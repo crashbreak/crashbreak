@@ -2,6 +2,7 @@ describe Crashbreak::ExceptionsRepository do
   subject { described_class.new }
 
   let(:project_token) { 'example_project_token' }
+  let(:exception_id) { 1 }
 
   before(:each) do
     Crashbreak.configure.api_key = project_token
@@ -16,11 +17,11 @@ describe Crashbreak::ExceptionsRepository do
 
   let!(:create_exception_request) do
     stub_request(:post, "#{described_class::BASE_URL}/projects/#{project_token}/errors").
-        with(body: error_report_hash.to_json).to_return(status: 200)
+        with(body: error_report_hash.to_json).to_return(status: 200, body: { id: exception_id }.to_json)
   end
 
   it 'sends request to create exception report' do
-    subject.create error_report_hash
+    expect(subject.create error_report_hash).to eq exception_id
     expect(create_exception_request).to have_been_made
   end
 end

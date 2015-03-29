@@ -20,7 +20,7 @@ describe 'Sending error report to server' do
 
   let!(:create_exception_request) do
     stub_request(:post, "#{Crashbreak::ExceptionsRepository::BASE_URL}/projects/#{project_token}/errors").
-        with(body: error_report_hash.to_json).to_return(status: 200)
+        with(body: error_report_hash.to_json).to_return(status: 200, body: { id: 1 }.to_json)
   end
 
   let(:error_report_hash) do
