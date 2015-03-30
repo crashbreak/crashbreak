@@ -8,6 +8,7 @@ module Crashbreak
     attr_accessor :github_password
     attr_accessor :github_repo_name
     attr_accessor :github_spec_file_path
+    attr_accessor :github_development_branch
 
     def exception_notifier
       @exception_notifier || ExceptionNotifier.new
@@ -15,6 +16,14 @@ module Crashbreak
 
     def error_serializers
       @error_serializers || []
+    end
+
+    def github_spec_file_path
+      @github_spec_file_path || 'spec/crashbreak_error_spec.rb'
+    end
+
+    def github_development_branch
+      @github_development_branch || 'master'
     end
   end
 end

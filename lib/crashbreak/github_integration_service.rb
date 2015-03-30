@@ -9,14 +9,23 @@ module Crashbreak
       create_test_file
     end
 
+    def remove_test
+      client.delete_contents(repo_name, file_path, "Remove test for error #{@error_id}",
+                             test_file_sha, branch: "refs/#{error_branch_name}")
+    end
+
+    def create_pull_request
+      client.create_pull_request(repo_name, development_branch_name, error_branch_name.gsub('heads/', ''), "Crashbreak - fix for error #{@error_id}", '')
+    end
+
     private
 
     def branch_sha
-      get_sha.object.sha
+      @branch_sha ||= client.ref(repo_name, 'heads/master').object.sha
     end
 
-    def get_sha
-      client.ref repo_name, 'heads/master'
+    def test_file_sha
+      @test_file_sha ||= client.contents(repo_name, path: file_path, ref: error_branch_name).sha
     end
 
     def create_branch(sha)
@@ -24,7 +33,7 @@ module Crashbreak
     end
 
     def create_test_file
-      client.create_contents repo_name, Crashbreak.configure.github_spec_file_path, "Add test file for error #{@error_id}",
+      client.create_contents repo_name, file_path, "Add test file for error #{@error_id}",
                              file_content, { branch: "refs/#{error_branch_name}" }
     end
 
@@ -43,6 +52,14 @@ module Crashbreak
 
     def error_branch_name
       "heads/crashbreak-error-#{@error_id}"
+    end
+
+    def file_path
+      Crashbreak.configure.github_spec_file_path
+    end
+
+    def development_branch_name
+      Crashbreak.configure.github_development_branch
     end
   end
 end

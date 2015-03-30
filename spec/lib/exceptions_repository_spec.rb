@@ -20,8 +20,17 @@ describe Crashbreak::ExceptionsRepository do
         with(body: error_report_hash.to_json).to_return(status: 200, body: { id: exception_id }.to_json)
   end
 
+  let!(:resolve_exception_request) do
+    stub_request(:put, "#{described_class::BASE_URL}/projects/#{project_token}/errors/#{exception_id}").
+        with(body: { error_report: { status: :resolved } }.to_json)
+  end
+
   it 'sends request to create exception report' do
     expect(subject.create error_report_hash).to eq exception_id
     expect(create_exception_request).to have_been_made
+  end
+
+  it 'resolves error' do
+    subject.resolve exception_id
   end
 end

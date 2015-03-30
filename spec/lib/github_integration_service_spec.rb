@@ -6,9 +6,11 @@ describe Crashbreak::GithubIntegrationService do
   let(:git_sha) { 'example_sha' }
   let(:file_content) { 'example_file_content' }
 
-  let(:github_refs_url) { 'https://api.github.com/git/refs' }
+  let(:github_refs_url) { 'https://api.github.com/repos/user/repo/git/refs' }
   let(:github_master_ref_url) { "#{github_refs_url}/heads/master" }
-  let(:github_create_content_url) { 'https://api.github.com/contents' }
+  let(:github_create_content_url) { 'https://api.github.com/repos/user/repo/contents' }
+  let(:github_test_file_url) { 'https://api.github.com/repos/user/repo/contents/spec/crashbreak_error_spec.rb' }
+  let(:github_pull_requests_url) { 'https://api.github.com/repos/user/repo/pulls' }
 
   before(:each) do
     Crashbreak.configure.github_spec_file_path = 'spec/crashbreak_error_spec.rb'
@@ -25,5 +27,21 @@ describe Crashbreak::GithubIntegrationService do
     allow(subject).to receive(:file_content).and_return(file_content)
 
     subject.push_test
+  end
+
+  it 'removes test from github' do
+    stub_request(:get, "#{github_test_file_url}?ref=heads/crashbreak-error-1").to_return(body: DeepStruct.wrap(sha: git_sha))
+
+    stub_request(:delete, github_test_file_url).
+        with(body: { branch: 'refs/heads/crashbreak-error-1', message: 'Remove test for error 1', sha: git_sha }.to_json)
+
+    subject.remove_test
+  end
+
+  it 'creates pull request' do
+    stub_request(:post, github_pull_requests_url).
+        with(body: { base: 'master', head: 'crashbreak-error-1', title: 'Crashbreak - fix for error 1', body: '' }.to_json)
+
+    subject.create_pull_request
   end
 end

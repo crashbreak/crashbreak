@@ -45,7 +45,7 @@ describe Crashbreak::ExceptionNotifier do
       let(:error_id) { 1 }
 
       it 'passes error id from request to github integration service' do
-        Crashbreak.configure.github_spec_file_path = 'example_file_name.rb'
+        Crashbreak.configure.github_repo_name = 'user/repo'
 
         allow_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).and_return(error_id)
         expect_any_instance_of(Crashbreak::GithubIntegrationService).to receive(:initialize).with(error_id)
