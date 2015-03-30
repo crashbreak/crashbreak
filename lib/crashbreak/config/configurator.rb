@@ -3,6 +3,7 @@ module Crashbreak
     attr_accessor :api_key
     attr_accessor :exception_notifier
     attr_accessor :error_serializers
+    attr_accessor :dumper_options
 
     attr_accessor :github_login
     attr_accessor :github_password
@@ -24,6 +25,10 @@ module Crashbreak
 
     def github_development_branch
       @github_development_branch || 'master'
+    end
+
+    def dumper_options
+      @dumper_options || {}
     end
   end
 end
