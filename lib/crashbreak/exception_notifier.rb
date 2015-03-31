@@ -21,7 +21,7 @@ module Crashbreak
     end
 
     def dumpers
-      [RequestDumper.new]
+      Crashbreak.configure.dumpers
     end
 
     def serializers

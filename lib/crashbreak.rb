@@ -18,11 +18,12 @@ require 'crashbreak/exceptions_repository'
 require 'crashbreak/dumpers_data_repository'
 require 'crashbreak/request_parser'
 require 'crashbreak/github_integration_service'
+require 'crashbreak/aws'
 
 require 'dumpers/database_dumper'
 require 'dumpers/request_dumper'
 
-require 'restorers/pg_restorer'
+require 'restorers/database_restorer'
 require 'restorers/state_restorer'
 require 'restorers/request_restorer'
 
