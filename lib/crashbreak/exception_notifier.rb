@@ -15,9 +15,11 @@ module Crashbreak
     end
 
     def dumpers_data
-      dumpers.map do |dumper|
-        [dumper.class.to_s, dumper.dump]
-      end.to_h
+      {}.tap do |dupers_data_hash|
+        dumpers.each do |dumper|
+          dupers_data_hash[dumper.class.to_s] = dumper.dump
+        end
+      end
     end
 
     def dumpers
