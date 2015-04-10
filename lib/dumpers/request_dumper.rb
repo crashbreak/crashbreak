@@ -6,7 +6,9 @@ class RequestDumper < Crashbreak::BasicFormatter
   private
 
   def sanitized_request_hash
-    request_hash.map{|key, value| [key, value.to_s]}.to_h
+    {}.tap do |sanitized_request_hash|
+      request_hash.each{|key, value| sanitized_request_hash[key] = value.to_s }
+    end
   end
 
   def request_hash
