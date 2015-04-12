@@ -5,7 +5,10 @@ namespace :crashbreak do
     begin
       raise CrashbreakTestError.new('If you see this message everything works fine!')
     rescue CrashbreakTestError => error
-      Crashbreak.configure.exception_notifier.notify error
+      RequestStore.store[:exception] = error
+      RequestStore.store[:request] = Rack::Request.new({})
+
+      Crashbreak.configure.exception_notifier.notify
     end
 
     puts 'Done, now check if error exists on crashbreak.com!'
