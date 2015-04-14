@@ -12,6 +12,7 @@ module Crashbreak
       prepare_aws
       download_dump
       restore_database
+      setup_connection_to_restored_database
     end
 
     private
@@ -30,6 +31,18 @@ module Crashbreak
 
     def restore_command
       Crashbreak.configure.restorer_options[:restore_command]
+    end
+
+    def setup_connection_to_restored_database
+      if Crashbreak.configure.restorer_options[:setup_database_connection].present?
+        Crashbreak.configure.restorer_options[:setup_database_connection].call
+      else
+        ActiveRecord::Base.establish_connection(database_config.merge(database: 'crashbreak-test')) if database_config
+      end
+    end
+
+    def database_config
+      @database_config ||= YAML.load(File.read('config/database.yml')).try(:[], 'test')
     end
   end
 end
