@@ -3,7 +3,7 @@ module Crashbreak
     BASE_URL = 'http://crashbreak.herokuapp.com/api'
 
     def create(error_report_hash)
-      JSON.parse(post_request(error_report_hash).body)['id']
+      JSON.parse(post_request(error_report_hash).body)
     end
 
     def resolve(error_id)

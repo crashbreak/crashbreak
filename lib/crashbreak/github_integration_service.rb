@@ -1,7 +1,8 @@
 module Crashbreak
   class GithubIntegrationService
-    def initialize(error_id)
-      @error_id = error_id
+    def initialize(error_hash)
+      @error_id = error_hash['id']
+      @error_deploy_revision = error_hash['deploy_revision']
     end
 
     def push_test
@@ -21,7 +22,13 @@ module Crashbreak
     private
 
     def branch_sha
-      @branch_sha ||= client.ref(repo_name, 'heads/master').object.sha
+      @branch_sha ||= begin
+        if @error_deploy_revision
+          client.commit(repo_name, @error_deploy_revision).sha
+        else
+          client.ref(repo_name, 'heads/master').object.sha
+        end
+      end
     end
 
     def test_file_sha

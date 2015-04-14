@@ -1,8 +1,8 @@
 module Crashbreak
   class ExceptionNotifier
     def notify
-      error_id = exceptions_repository.create serialize_exception
-      GithubIntegrationService.new(error_id).push_test if Crashbreak.configure.github_repo_name.present?
+      response = exceptions_repository.create serialize_exception
+      GithubIntegrationService.new(response).push_test if Crashbreak.configure.github_repo_name.present?
     end
 
     private

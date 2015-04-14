@@ -41,37 +41,37 @@ describe Crashbreak::ExceptionNotifier do
       end
     end
 
-    context 'github integration' do
-      let(:error_id) { 1 }
+    context 'with additional serializers' do
+      let(:expected_hash) { exception_basic_hash.merge(serializer_hash) }
 
-      it 'passes error id from request to github integration service' do
-        Crashbreak.configure.github_repo_name = 'user/repo'
+      let(:serializer_hash) do
+        { additional_key: :example, additional_data: { looks_good: :yes } }
+      end
 
-        allow_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).and_return(error_id)
-        expect_any_instance_of(Crashbreak::GithubIntegrationService).to receive(:initialize).with(error_id)
+      let(:serializer) { double(:serializer) }
 
+      before(:each) do
+        allow(serializer).to receive(:serialize).and_return(serializer_hash)
+        allow_any_instance_of(Crashbreak::Configurator).to receive(:error_serializers).and_return([serializer])
+      end
+
+      it 'sends formatted error' do
+        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_hash)
         subject.notify
       end
     end
-  end
 
-  context 'with additional serializers' do
-    let(:expected_hash) { exception_basic_hash.merge(serializer_hash) }
+    context 'github integration' do
+      let(:error_hash) { Hash[id: 1, deploy_revision: 'test'] }
 
-    let(:serializer_hash) do
-      { additional_key: :example, additional_data: { looks_good: :yes } }
-    end
+      it 'passes error hash from request to github integration service' do
+        Crashbreak.configure.github_repo_name = 'user/repo'
 
-    let(:serializer) { double(:serializer) }
+        allow_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).and_return(error_hash)
+        expect_any_instance_of(Crashbreak::GithubIntegrationService).to receive(:initialize).with(error_hash)
 
-    before(:each) do
-      allow(serializer).to receive(:serialize).and_return(serializer_hash)
-      allow_any_instance_of(Crashbreak::Configurator).to receive(:error_serializers).and_return([serializer])
-    end
-
-    it 'sends formatted error' do
-      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_hash)
-      subject.notify
+        subject.notify
+      end
     end
   end
 end

@@ -1,3 +1,3 @@
 module Crashbreak
-  VERSION = '0.9.9'
+  VERSION = '0.9.10'
 end
