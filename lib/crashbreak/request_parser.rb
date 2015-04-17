@@ -27,7 +27,11 @@ module Crashbreak
     end
 
     def request_headers
-      @request.select{|key| key.start_with?('HTTP_')}.map{|key, value| [key.gsub('HTTP_', ''), value]}.to_h
+      {}.tap do |request_headers|
+        @request.select{|key| key.start_with?('HTTP_')}.each do |key, value|
+          request_headers[key.gsub('HTTP_', '')] = value
+        end
+      end
     end
   end
 end
