@@ -1,4 +1,4 @@
-# Crashbreak
+# Crashbreak [![Version](http://img.shields.io/gem/v/crashbreak.svg)                               ](https://rubygems.org/gems/crashbreak) [![Build Status](https://travis-ci.org/crashbreak/crashbreak.svg?branch=master)](https://travis-ci.org/crashbreak/crashbreak) [![Code Climate](https://codeclimate.com/github/crashbreak/crashbreak/badges/gpa.svg)](https://codeclimate.com/github/crashbreak/crashbreak)
 
 TODO: Write a gem description
 
