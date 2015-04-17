@@ -1,6 +1,7 @@
 module Crashbreak
   class Configurator
     attr_accessor :api_key
+    attr_accessor :ignored_environments
     attr_accessor :exception_notifier
     attr_accessor :error_serializers
     attr_accessor :dumpers
@@ -15,6 +16,10 @@ module Crashbreak
 
     def exception_notifier
       @exception_notifier || ExceptionNotifier.new
+    end
+
+    def ignored_environments
+      @ignored_environments || ['development']
     end
 
     def error_serializers
