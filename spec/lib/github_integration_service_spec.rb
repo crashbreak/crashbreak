@@ -15,6 +15,7 @@ describe Crashbreak::GithubIntegrationService do
 
   before(:each) do
     Crashbreak.configure.github_spec_file_path = 'spec/crashbreak_error_spec.rb'
+    allow_any_instance_of(WebMock::Response).to receive(:assert_valid_body!).and_return(true)
   end
 
   it 'pushes test to github' do
