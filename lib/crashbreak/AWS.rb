@@ -4,6 +4,10 @@ module Crashbreak
       @client ||= Aws::S3::Client.new
     end
 
+    def aws_resource_bucket
+      @aws_resource_bucket ||= Aws::S3::Resource.new.bucket(bucket_name)
+    end
+
     def bucket_name
       Crashbreak.configure.dumper_options[:aws_bucket_name]
     end
