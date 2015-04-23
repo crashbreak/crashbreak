@@ -1,0 +1,1 @@
+Crashbreak.configure.ignored_environments = ['development']
