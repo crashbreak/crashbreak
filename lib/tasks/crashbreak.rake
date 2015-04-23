@@ -15,8 +15,8 @@ namespace :crashbreak do
   end
 
   task resolve_error: :environment do
-    return puts 'error_id must be set (e.g rake crashbreak:resolve_error error_id=123)' if ENV['error_id'].nil?
-    service = Crashbreak::GithubIntegrationService.new ENV['error_id']
+    error_id = ENV['error_id'] || File.read("#{Rails.root}/spec/crashbreak_error_spec.rb").scan(/error id: \d+/).first.gsub('error id: ', '').to_i
+    service = Crashbreak::GithubIntegrationService.new 'id' => error_id
 
     puts 'Removing test file from github...'
     service.remove_test
@@ -25,7 +25,7 @@ namespace :crashbreak do
     service.create_pull_request
 
     puts 'Resolving error in CrashBreak...'
-    Crashbreak::ExceptionsRepository.new.resolve ENV['error_id']
+    Crashbreak::ExceptionsRepository.new.resolve error_id
   end
 end
 
