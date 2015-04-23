@@ -15,7 +15,13 @@ namespace :crashbreak do
   end
 
   task resolve_error: :environment do
-    error_id = ENV['error_id'] || File.read("#{Rails.root}/spec/crashbreak_error_spec.rb").scan(/error id: \d+/).first.gsub('error id: ', '').to_i
+    error_id = ENV['error_id']
+
+    unless error_id
+      next unless File.exist?("#{Rails.root}/spec/crashbreak_error_spec.rb")
+      error_id = File.read("#{Rails.root}/spec/crashbreak_error_spec.rb").scan(/error id: \d+/).first.gsub('error id: ', '').to_i
+    end
+
     service = Crashbreak::GithubIntegrationService.new 'id' => error_id
 
     puts 'Removing test file from github...'
