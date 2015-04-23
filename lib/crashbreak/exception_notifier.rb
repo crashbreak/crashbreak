@@ -3,7 +3,7 @@ module Crashbreak
     def notify
       return if skip_exception?
       response = exceptions_repository.create serialize_exception
-      GithubIntegrationService.new(response).push_test if Crashbreak.configure.github_repo_name.present?
+      GithubIntegrationService.new(response).push_test if Crashbreak.configure.github_repo_name.present? && response['similar'] == false
     end
 
     private
