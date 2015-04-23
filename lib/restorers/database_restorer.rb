@@ -22,6 +22,8 @@ module Crashbreak
     end
 
     def download_dump
+      Dir.mkdir("#{Rails.root}/tmp/") unless File.exists?("#{Rails.root}/tmp/")
+
       File.open("#{Rails.root}/tmp/db.dump", 'wb') do |file|
         client.get_object(bucket: bucket_name, key: @file_name) do |data|
           file.write(data)
