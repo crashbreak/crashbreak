@@ -80,7 +80,7 @@ describe Crashbreak::ExceptionNotifier do
     end
 
     context 'github integration' do
-      let(:error_hash) { Hash[id: 1, deploy_revision: 'test', similar: false] }
+      let(:error_hash) { Hash['id' => 1, 'deploy_revision' => 'test', 'similar' => false] }
 
       it 'passes error hash from request to github integration service' do
         Crashbreak.configure.github_repo_name = 'user/repo'
@@ -92,7 +92,7 @@ describe Crashbreak::ExceptionNotifier do
       end
 
       it 'skips github integration if error is similar' do
-        allow_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).and_return(error_hash.merge(similar: true))
+        allow_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).and_return(error_hash.merge('similar' => true))
         expect_any_instance_of(Crashbreak::GithubIntegrationService).to_not receive(:initialize)
 
         subject.notify
