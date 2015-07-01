@@ -24,11 +24,15 @@ module Crashbreak
     def branch_sha
       @branch_sha ||= begin
         if @error_deploy_revision
-          client.commit(repo_name, @error_deploy_revision).sha
+          client.commit(repo_name, @error_deploy_revision).sha rescue repo_sha
         else
-          client.ref(repo_name, 'heads/master').object.sha
+          repo_sha
         end
       end
+    end
+
+    def repo_sha
+      client.ref(repo_name, 'heads/master').object.sha
     end
 
     def test_file_sha
