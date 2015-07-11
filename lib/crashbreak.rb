@@ -26,6 +26,7 @@ require 'crashbreak/AWS'
 require 'crashbreak/async_exception_notifier'
 require 'crashbreak/tiny_exception_notifier'
 require 'crashbreak/fork_exception_notifier'
+require 'crashbreak/predefined_settings'
 
 require 'dumpers/database_dumper'
 require 'dumpers/request_dumper'

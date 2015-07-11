@@ -15,35 +15,35 @@ module Crashbreak
     attr_accessor :github_development_branch
 
     def exception_notifier
-      @exception_notifier || ExceptionNotifier.new
+      @exception_notifier ||= ExceptionNotifier.new
     end
 
     def ignored_environments
-      @ignored_environments || ['development', 'test']
+      @ignored_environments ||= ['development', 'test']
     end
 
     def error_serializers
-      @error_serializers || []
+      @error_serializers ||= []
     end
 
     def github_spec_file_path
-      @github_spec_file_path || 'spec/crashbreak_error_spec.rb'
+      @github_spec_file_path ||= 'spec/crashbreak_error_spec.rb'
     end
 
     def github_development_branch
-      @github_development_branch || 'master'
+      @github_development_branch ||= 'master'
     end
 
     def dumpers
-      @dumpers || []
+      @dumpers ||= []
     end
 
     def dumper_options
-      @dumper_options || {}
+      @dumper_options ||= {}
     end
 
     def restorer_options
-      @restorer_options || {}
+      @restorer_options ||= {}
     end
   end
 end
