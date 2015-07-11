@@ -7,8 +7,8 @@ module Crashbreak
     end
 
     def restore
-      system('dropdb crashbreak-test')
-      system('createdb -T template0 crashbreak-test')
+      system(drop_test_database_command)
+      system(create_test_database_command)
       prepare_aws
       download_dump
       restore_database
@@ -31,10 +31,6 @@ module Crashbreak
       end
     end
 
-    def restore_command
-      Crashbreak.configure.restorer_options[:restore_command]
-    end
-
     def setup_connection_to_restored_database
       if Crashbreak.configure.restorer_options[:setup_database_connection].present?
         Crashbreak.configure.restorer_options[:setup_database_connection].call
@@ -45,6 +41,18 @@ module Crashbreak
 
     def database_config
       @database_config ||= YAML.load(File.read('config/database.yml')).try(:[], 'test')
+    end
+
+    def restore_command
+      Crashbreak.configure.restorer_options[:restore_command]
+    end
+
+    def drop_test_database_command
+      Crashbreak.configure.restorer_options[:drop_test_database_command]
+    end
+
+    def create_test_database_command
+      Crashbreak.configure.restorer_options[:create_test_database_command]
     end
   end
 end

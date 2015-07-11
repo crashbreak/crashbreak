@@ -6,7 +6,11 @@ module Crashbreak
           dump_command: "pg_dump -Fc #{db_name} > #{Rails.root}/tmp/db.dump"
       )
 
-      config.restorer_options.reverse_merge!(restore_command: "pg_restore #{Rails.root}/tmp/db.dump -d crashbreak-test")
+      config.restorer_options.reverse_merge!(
+          drop_test_database_command: 'dropdb crashbreak-test',
+          create_test_database_command: 'createdb -T template0 crashbreak-test',
+          restore_command: "pg_restore #{Rails.root}/tmp/db.dump -d crashbreak-test",
+      )
     end
 
     private
