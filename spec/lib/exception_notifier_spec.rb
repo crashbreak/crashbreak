@@ -61,24 +61,6 @@ describe Crashbreak::ExceptionNotifier do
       end
     end
 
-    context 'skipping environment' do
-      before(:each) do
-        expect_any_instance_of(Crashbreak::ExceptionsRepository).to_not receive(:create)
-      end
-
-      it 'skips development environment by default' do
-        expect(ENV).to receive(:[]).with('RACK_ENV').and_return('development')
-        subject.notify
-      end
-
-      it 'skips all environments in config' do
-        Crashbreak.configure.ignored_environments = ['staging']
-
-        expect(ENV).to receive(:[]).with('RACK_ENV').and_return('staging')
-        subject.notify
-      end
-    end
-
     context 'github integration' do
       let(:error_hash) { Hash['id' => 1, 'deploy_revision' => 'test', 'similar' => false] }
 

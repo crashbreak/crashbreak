@@ -4,7 +4,7 @@ describe Crashbreak::ExceptionCatcherMiddleware do
 
   let(:env) { Hash['action_controller.instance' => example_controller ]}
   let(:example_controller) { double(:controller) }
-  let(:error) { StandardError.new }
+  let(:error) { RegexpError.new }
 
   before(:each) do
     allow(app_with_crashes).to receive(:call).with(env).and_raise(error)
@@ -16,7 +16,7 @@ describe Crashbreak::ExceptionCatcherMiddleware do
 
     before(:each) do
       expect_any_instance_of(Crashbreak::ExceptionNotifier).to receive(:notify).and_return(true)
-      expect{ subject.call(env) }.to raise_error(StandardError)
+      expect{ subject.call(env) }.to raise_error(error.class)
     end
 
     it 'sets exception in store' do
@@ -32,11 +32,31 @@ describe Crashbreak::ExceptionCatcherMiddleware do
     end
   end
 
+  context 'app that raises exception but current env is ignored' do
+    subject { described_class.new app_with_crashes }
+
+    before(:each) do
+      expect_any_instance_of(Crashbreak::ExceptionNotifier).to_not receive(:notify)
+    end
+
+      it 'skips development environment by default' do
+        expect(ENV).to receive(:[]).with('RACK_ENV').and_return('development')
+        expect{ subject.call(env) }.to raise_error(error.class)
+      end
+
+      it 'skips all environments in config' do
+        Crashbreak.configure.ignored_environments = ['staging']
+
+        expect(ENV).to receive(:[]).with('RACK_ENV').and_return('staging')
+        expect{ subject.call(env) }.to raise_error(error.class)
+      end
+  end
+
   context 'app that works without exceptions' do
     subject { described_class.new app_without_crashes }
 
     it 'does nothing' do
-      expect_any_instance_of(Crashbreak::ExceptionNotifier).to_not receive(:notify).and_return(true)
+      expect_any_instance_of(Crashbreak::ExceptionNotifier).to_not receive(:notify)
       expect(subject.call(env)).to eq(:ok)
     end
   end

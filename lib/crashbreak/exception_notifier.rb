@@ -1,7 +1,6 @@
 module Crashbreak
   class ExceptionNotifier
     def notify
-      return if skip_exception?
       response = exceptions_repository.create serialize_exception
       GithubIntegrationService.new(response).push_test if Crashbreak.configure.github_repo_name.present? && response['similar'] == false
     end
@@ -21,10 +20,6 @@ module Crashbreak
           dupers_data_hash[dumper.class.to_s] = dumper.dump
         end
       end
-    end
-
-    def skip_exception?
-      Crashbreak.configure.ignored_environments.include? ENV['RACK_ENV']
     end
 
     def dumpers
