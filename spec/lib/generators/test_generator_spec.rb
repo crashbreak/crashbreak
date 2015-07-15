@@ -11,6 +11,6 @@ describe Crashbreak::Generators::TestGenerator do
   end
 
   it 'creates a test' do
-    assert_file 'spec/crashbreak_error_spec.rb', /example_error_id/
+    assert_file Crashbreak.configurator.request_spec_file_path, /example_error_id/
   end
 end
