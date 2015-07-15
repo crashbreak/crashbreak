@@ -14,7 +14,7 @@ describe Crashbreak::GithubIntegrationService do
   let(:github_deploy_commit_url) { 'https://api.github.com/repos/user/repo/commits/example_deploy_revision' }
 
   before(:each) do
-    Crashbreak.configure.github_spec_file_path = 'spec/crashbreak_error_spec.rb'
+    Crashbreak.configure.request_spec_file_path = 'spec/crashbreak_error_spec.rb'
     allow_any_instance_of(WebMock::Response).to receive(:assert_valid_body!).and_return(true)
   end
 
@@ -25,7 +25,7 @@ describe Crashbreak::GithubIntegrationService do
 
     stub_request(:post, github_refs_url).with(body: { ref: 'refs/heads/crashbreak-error-1', sha: 'example_deploy_revision'}.to_json)
 
-    stub_request(:put, "#{github_create_content_url}/#{Crashbreak.configure.github_spec_file_path}").
+    stub_request(:put, "#{github_create_content_url}/#{Crashbreak.configure.request_spec_file_path}").
         with(body: { branch: branch_name, content: Base64.strict_encode64(file_content), message: 'Add test file for error 1' }.to_json)
 
     allow(subject).to receive(:file_content).and_return(file_content)

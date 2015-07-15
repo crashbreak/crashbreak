@@ -7,11 +7,11 @@ module Crashbreak
     attr_accessor :dumpers
     attr_accessor :dumper_options
     attr_accessor :restorer_options
+    attr_accessor :request_spec_file_path
 
     attr_accessor :github_login
     attr_accessor :github_password
     attr_accessor :github_repo_name
-    attr_accessor :github_spec_file_path
     attr_accessor :github_development_branch
 
     def exception_notifier
@@ -26,8 +26,8 @@ module Crashbreak
       @error_serializers ||= []
     end
 
-    def github_spec_file_path
-      @github_spec_file_path ||= 'spec/crashbreak_error_spec.rb'
+    def request_spec_file_path
+      @request_spec_file_path ||= 'spec/crashbreak_error_spec.rb'
     end
 
     def github_development_branch

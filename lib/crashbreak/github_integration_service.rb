@@ -66,7 +66,7 @@ module Crashbreak
     end
 
     def file_path
-      Crashbreak.configure.github_spec_file_path
+      Crashbreak.configure.request_spec_file_path
     end
 
     def development_branch_name
