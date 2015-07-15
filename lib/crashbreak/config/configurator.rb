@@ -27,7 +27,7 @@ module Crashbreak
     end
 
     def request_spec_file_path
-      @request_spec_file_path ||= 'spec/crashbreak_error_spec.rb'
+      @request_spec_file_path ||= 'crashbreak_error_spec.rb'
     end
 
     def github_development_branch
