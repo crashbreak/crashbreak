@@ -33,6 +33,14 @@ namespace :crashbreak do
     puts 'Resolving error in CrashBreak...'
     Crashbreak::ExceptionsRepository.new.resolve error_id
   end
+
+  task run_test: :environment do
+    unless File.exist?("#{Rails.root}/spec/crashbreak_error_spec.rb")
+      next puts 'Crashbreak spec not found, skipping.'
+    end
+
+    system('bundle exec rspec spec/crashbreak_error_spec.rb')
+  end
 end
 
 class CrashbreakTestError < StandardError
