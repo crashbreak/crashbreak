@@ -18,6 +18,13 @@ describe Crashbreak::ExceptionNotifier do
     { name: error_name, message: error_message, backtrace: error.backtrace, environment: ENV['RACK_ENV'], dumpers_data: {} }
   end
 
+  it 'stores server response in request store' do
+    expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash).and_return(:example_server_response)
+    subject.notify
+
+    expect(RequestStore.store[:server_response]).to eq(:example_server_response)
+  end
+
   context 'without additional serializers' do
     it 'sends pure error' do
       expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash)

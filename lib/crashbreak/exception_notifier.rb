@@ -1,8 +1,8 @@
 module Crashbreak
   class ExceptionNotifier
     def notify
-      response = exceptions_repository.create serialize_exception
-      GithubIntegrationService.new(response).push_test if Crashbreak.configure.github_repo_name.present? && response['similar'] == false
+      RequestStore.store[:server_response] = exceptions_repository.create serialize_exception
+      GithubIntegrationService.new(server_response).push_test if Crashbreak.configure.github_repo_name.present? && created_error_is_unique?
     end
 
     private
@@ -32,6 +32,14 @@ module Crashbreak
 
     def exceptions_repository
       @exceptions_repository ||= ExceptionsRepository.new
+    end
+
+    def created_error_is_unique?
+      !server_response['similar']
+    end
+
+    def server_response
+      RequestStore.store[:server_response]
     end
   end
 end
