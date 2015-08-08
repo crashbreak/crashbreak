@@ -16,6 +16,7 @@ describe Crashbreak::ExceptionCatcherMiddleware do
 
     before(:each) do
       expect_any_instance_of(Crashbreak::ExceptionNotifier).to receive(:notify).and_return(true)
+      allow(Crashbreak.configurator).to receive(:ignored_environments).and_return([])
       expect{ subject.call(env) }.to raise_error(error.class)
     end
 

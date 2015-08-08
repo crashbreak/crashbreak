@@ -32,15 +32,7 @@ module Crashbreak
     end
 
     def setup_connection_to_restored_database
-      if Crashbreak.configure.restorer_options[:setup_database_connection].present?
-        Crashbreak.configure.restorer_options[:setup_database_connection].call
-      else
-        ActiveRecord::Base.establish_connection(database_config.merge(database: 'crashbreak-test')) if database_config
-      end
-    end
-
-    def database_config
-      @database_config ||= YAML.load(File.read('config/database.yml')).try(:[], 'test')
+      Crashbreak.configure.restorer_options[:setup_database_connection].call
     end
 
     def restore_command

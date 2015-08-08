@@ -19,7 +19,8 @@ module Crashbreak
     end
 
     def ignored_environments
-      @ignored_environments ||= ['development', 'test']
+      @ignored_environments ||= ['development']
+      @ignored_environments + ['test']
     end
 
     def error_serializers

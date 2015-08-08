@@ -17,6 +17,7 @@ describe 'Sending error report to server' do
     allow(crashing_app).to receive(:call).and_raise(example_error)
     allow(example_error).to receive(:backtrace).and_return(%w(example backtrace))
     allow_any_instance_of(Crashbreak::BasicFormatter).to receive(:request).and_return(example_request)
+    allow(Crashbreak.configurator).to receive(:ignored_environments).and_return([])
   end
 
   let!(:create_exception_request) do
