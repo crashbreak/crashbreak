@@ -6,12 +6,9 @@ module Crashbreak
 
     def dump
       prepare_aws
-
-      if dump_not_exist_yet?
-        dump_database
-        upload_dump
-        remove_locally_dump
-      end
+      dump_database
+      upload_dump
+      remove_locally_dump
 
       { file_name: aws_file_name }
     end
@@ -31,11 +28,7 @@ module Crashbreak
     end
 
     def aws_file_name
-      "Crashbreak - database dump #{Digest::MD5.hexdigest(ENV['RACK_ENV'] + exception.class.to_s + exception.backtrace[0])}"
-    end
-
-    def dump_not_exist_yet?
-      !aws_resource_bucket.object(aws_file_name).exists?
+      @aws_file_name ||= "Crashbreak - database dump #{Time.now} (#{Time.now.to_f})"
     end
 
     def dump_location
