@@ -10,6 +10,10 @@ module Crashbreak
       resolve_request error_id
     end
 
+    def update(error_id, hash)
+      update_request(error_id, hash)
+    end
+
     private
 
     def post_request(error_report_hash)
@@ -21,9 +25,13 @@ module Crashbreak
     end
 
     def resolve_request(error_id)
+      update_request(error_id, status: :resolved)
+    end
+
+    def update_request(error_id, body)
       connection.put do |req|
         req.url resolve_request_url(error_id)
-        req.body = { error_report: { status: :resolved } }.to_json
+        req.body = { error_report: body }.to_json
         req.headers['Content-Type'] = 'application/json'
       end
     end

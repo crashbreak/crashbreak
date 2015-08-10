@@ -2,15 +2,23 @@ module Crashbreak
   class ExceptionNotifier
     def notify
       RequestStore.store[:server_response] = exceptions_repository.create serialize_exception
-      GithubIntegrationService.new(server_response).push_test if Crashbreak.configure.github_repo_name.present? && created_error_is_unique?
+
+      if created_error_is_unique?
+        dump_system_and_update_report
+
+        GithubIntegrationService.new(server_response).push_test if Crashbreak.configure.github_repo_name.present?
+      end
     end
 
     private
 
+    def dump_system_and_update_report
+      exceptions_repository.update server_response['id'], dumpers_data: dumpers_data
+    end
+
     def serialize_exception
       {}.tap do |exception_hash|
         serializers.each { |serializer| exception_hash.deep_merge!(serializer.serialize) }
-        exception_hash[:dumpers_data] = dumpers_data
       end
     end
 

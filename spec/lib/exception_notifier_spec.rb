@@ -9,14 +9,17 @@ describe Crashbreak::ExceptionNotifier do
     allow_any_instance_of(Crashbreak::Configurator).to receive(:error_serializers).and_return([])
     allow_any_instance_of(described_class).to receive(:dumpers).and_return([])
     allow_any_instance_of(Crashbreak::GithubIntegrationService).to receive(:push_test).and_return(true)
+    allow_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:update).and_return(true)
 
     RequestStore[:exception] = error
     RequestStore[:request] = double(:request, env: { request: :example_request_data } )
   end
 
   let(:exception_basic_hash) do
-    { name: error_name, message: error_message, backtrace: error.backtrace, environment: ENV['RACK_ENV'], dumpers_data: {} }
+    { name: error_name, message: error_message, backtrace: error.backtrace, environment: ENV['RACK_ENV'] }
   end
+
+  let(:example_response) { Hash['error_id' => 1, 'similar_error' => false] }
 
   it 'stores server response in request store' do
     expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash).and_return(:example_server_response)
@@ -27,13 +30,11 @@ describe Crashbreak::ExceptionNotifier do
 
   context 'without additional serializers' do
     it 'sends pure error' do
-      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash)
+      expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(exception_basic_hash).and_return(:example_server_response)
       subject.notify
     end
 
     context 'with dumpers' do
-      let(:expected_hash) { exception_basic_hash.merge(dumpers_hash) }
-
       let(:dumpers_hash) do
         { dumpers_data: { 'RequestDumper' => { request: 'example_request_data' } } }
       end
@@ -43,7 +44,16 @@ describe Crashbreak::ExceptionNotifier do
       end
 
       it 'sends dump data' do
-        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_hash)
+        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).and_return('id' => 1, 'similar' => false)
+        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:update).with(1, dumpers_hash)
+
+        subject.notify
+      end
+
+      it 'skips dump if error is similar' do
+        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).and_return('id' => 1, 'similar' => true)
+        expect_any_instance_of(Crashbreak::ExceptionsRepository).to_not receive(:update).with(1, dumpers_hash)
+
         subject.notify
       end
     end
@@ -63,7 +73,7 @@ describe Crashbreak::ExceptionNotifier do
       end
 
       it 'sends formatted error' do
-        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_hash)
+        expect_any_instance_of(Crashbreak::ExceptionsRepository).to receive(:create).with(expected_hash).and_return(example_response)
         subject.notify
       end
     end

@@ -30,13 +30,21 @@ describe 'Sending error report to server' do
         name: example_error.to_s, message: example_error.message, backtrace: example_error.backtrace, environment: 'test',
         summary: { action: example_request.env['PATH_INFO'], controller_name: example_controller.class.to_s,
                    file: example_error.backtrace[0], url: example_request.env['REQUEST_URI'], user_agent: example_request.env['HTTP_USER_AGENT'] },
-        additional_data: { environment: ENV.to_hash, test: { formatter: true } },
-        dumpers_data: { 'RequestDumper' => example_request.env }
+        additional_data: { environment: ENV.to_hash, test: { formatter: true } }
     }
   end
 
+  let!(:update_exception_request) do
+    stub_request(:put, "#{Crashbreak::ExceptionsRepository::BASE_URL}/projects/#{project_token}/errors/1").
+        with(body: dumpers_data.to_json).to_return(status: 200)
+  end
+
+  let(:dumpers_data) { Hash[error_report: { dumpers_data: { 'RequestDumper' => example_request.env } }] }
+
   it 'sends error report on exception' do
     expect{ catching_middleware.call(env) }.to raise_error(TestError)
+
     expect(create_exception_request).to have_been_made
+    expect(update_exception_request).to have_been_made
   end
 end
