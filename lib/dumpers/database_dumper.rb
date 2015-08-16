@@ -1,4 +1,4 @@
-require 'digest/md5'
+require 'fileutils'
 
 module Crashbreak
   class DatabaseDumper < BasicFormatter
@@ -6,6 +6,7 @@ module Crashbreak
 
     def dump
       prepare_aws
+      make_directories
       dump_database
       upload_dump
       remove_locally_dump
@@ -15,8 +16,12 @@ module Crashbreak
 
     private
 
+    def make_directories
+      FileUtils::mkdir_p "#{Rails.root}/tmp/#{error_id}/"
+    end
+
     def dump_database
-      system(dump_command)
+      system(gsub_error_id(dump_command))
     end
 
     def upload_dump
@@ -32,11 +37,19 @@ module Crashbreak
     end
 
     def dump_location
-      Crashbreak.configure.dumper_options[:dump_location]
+      gsub_error_id(Crashbreak.configure.dumper_options[:dump_location])
     end
 
     def dump_command
       Crashbreak.configure.dumper_options[:dump_command]
+    end
+
+    def gsub_error_id(text)
+      text.gsub(':error_id:', error_id)
+    end
+
+    def error_id
+      RequestStore.store[:server_response]['id'].to_s
     end
   end
 end

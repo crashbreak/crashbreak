@@ -28,7 +28,7 @@ class StateRestorer
 
   def dumper_data(restorer)
     dumper_name = restorer.to_s.gsub('Restorer', 'Dumper')
-    dumpers_data[dumper_name]
+    dumpers_data[dumper_name].merge('error_id' => @error_id)
   end
 
   def key_name(restorer)

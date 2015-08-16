@@ -2,11 +2,11 @@ module Crashbreak
   class PredefinedSettings
     class << self
       def dump_file_location
-        "#{Rails.root}/tmp/db.dump"
+        "#{Rails.root}/tmp/:error_id:/db.dump"
       end
 
       def dump_folder_location
-        "#{Rails.root}/tmp/db_dump"
+        "#{Rails.root}/tmp/:error_id:/db_dump"
       end
 
       def postgresql(db_name)

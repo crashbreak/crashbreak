@@ -10,11 +10,16 @@ describe StateRestorer do
         to_return(status: 200, body: dumpers_data.to_json)
   end
 
-  let(:dumpers_data) { Hash['TestDumper' => 'test_data'] }
+  let(:dumpers_data) { Hash['TestDumper' => { test_key: 'test_data' } ] }
 
   it 'returns a hash with all restorers data' do
-    expect_any_instance_of(TestRestorer).to receive(:initialize).with('test_data')
+    expect_any_instance_of(TestRestorer).to receive(:initialize)
     expect(subject.restore).to eq(test: 'restored_test_data')
+  end
+
+  it 'passes dumper data with error id to restorer' do
+    expect_any_instance_of(TestRestorer).to receive(:initialize).with('test_key' => 'test_data', 'error_id' => error_id)
+    subject.restore
   end
 end
 
