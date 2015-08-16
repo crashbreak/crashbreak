@@ -14,7 +14,7 @@ module Crashbreak
       system(create_test_database_command)
       prepare_aws
       make_directories
-      download_dump
+      download_dump unless dump_already_downloaded
       restore_database
       setup_connection_to_restored_database
     end
@@ -30,13 +30,15 @@ module Crashbreak
     end
 
     def download_dump
-      Dir.mkdir("#{Rails.root}/tmp/") unless File.exists?("#{Rails.root}/tmp/")
-
       File.open(restore_location, 'wb') do |file|
         client.get_object(bucket: bucket_name, key: @file_name) do |data|
           file.write(data)
         end
       end
+    end
+
+    def dump_already_downloaded
+      File.exists?(restore_location)
     end
 
     def setup_connection_to_restored_database
