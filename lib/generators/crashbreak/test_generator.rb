@@ -5,7 +5,7 @@ module Crashbreak
       argument :error_id, type: :string
 
       def create_test_file
-        template 'test.rb', Crashbreak.configurator.request_spec_file_path
+        template Crashbreak.configurator.request_spec_template_path, Crashbreak.configurator.request_spec_file_path
       end
     end
   end

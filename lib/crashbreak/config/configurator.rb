@@ -8,6 +8,7 @@ module Crashbreak
     attr_accessor :dumper_options
     attr_accessor :restorer_options
     attr_accessor :request_spec_file_path
+    attr_accessor :request_spec_template_path
 
     attr_accessor :github_login
     attr_accessor :github_password
@@ -29,6 +30,10 @@ module Crashbreak
 
     def request_spec_file_path
       @request_spec_file_path ||= 'crashbreak_error_spec.rb'
+    end
+
+    def request_spec_template_path
+      @request_spec_template_path ||= "#{Crashbreak.root}/lib/generators/crashbreak/templates/rspec_test.rb"
     end
 
     def github_development_branch

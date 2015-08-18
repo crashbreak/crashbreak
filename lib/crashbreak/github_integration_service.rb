@@ -49,7 +49,7 @@ module Crashbreak
     end
 
     def file_content
-      test_file_content = File.read("#{Crashbreak.root}/lib/generators/crashbreak/templates/test.rb")
+      test_file_content = File.read(Crashbreak.configurator.request_spec_template_path)
       test_file_content.gsub('<%= error_id %>', @error_id.to_s)
     end
 

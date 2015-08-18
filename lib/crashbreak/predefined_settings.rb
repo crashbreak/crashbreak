@@ -46,7 +46,7 @@ module Crashbreak
             drop_test_database_command: 'dropdb crashbreak-test',
             create_test_database_command: 'createdb -T template0 crashbreak-test',
             restore_command: "pg_restore -O #{dump_file_location} -d crashbreak-test",
-            setup_database_connection: -> { ActiveRecord::Base.establish_connection(YAML.load(File.read('config/database.yml'))['crashbreak_test']) }
+            setup_database_connection: -> { ActiveRecord::Base.establish_connection(YAML.load(File.read("#{Rails.root}/config/database.yml"))['crashbreak_test']) }
         )
       end
 
