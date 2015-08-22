@@ -41,6 +41,17 @@ namespace :crashbreak do
 
     system("bundle exec rspec #{Crashbreak.configurator.request_spec_file_path}") or raise 'Crashbreak test failed.'
   end
+
+  task generate_test: :environment do
+    test_path = "#{Crashbreak.project_root}/#{Crashbreak.configurator.request_spec_file_path}"
+
+    if File.exist?(test_path)
+      next puts 'Crashbreak test already exist, remove it first and retry.'
+    end
+
+    template = File.read(Crashbreak.configurator.request_spec_template_path).gsub('<%= error_id %>', ENV['error_id'])
+    File.open(test_path, 'w+') {|file| file.write(template)}
+  end
 end
 
 class CrashbreakTestError < StandardError
