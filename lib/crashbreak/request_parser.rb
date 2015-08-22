@@ -23,7 +23,7 @@ module Crashbreak
     end
 
     def request_hash_as_string
-      @request['action_dispatch.request.request_parameters'] || '{}'
+      @request['rack.request.form_hash'] || '{}'
     end
 
     def request_headers

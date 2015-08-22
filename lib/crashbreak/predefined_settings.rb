@@ -2,11 +2,11 @@ module Crashbreak
   class PredefinedSettings
     class << self
       def dump_file_location
-        "#{Rails.root}/tmp/:error_id:/db.dump"
+        "#{Crashbreak.project_root}/tmp/:error_id:/db.dump"
       end
 
       def dump_folder_location
-        "#{Rails.root}/tmp/:error_id:/db_dump"
+        "#{Crashbreak.project_root}/tmp/:error_id:/db_dump"
       end
 
       def postgresql(db_name)
@@ -46,7 +46,7 @@ module Crashbreak
             drop_test_database_command: 'dropdb crashbreak-test',
             create_test_database_command: 'createdb -T template0 crashbreak-test',
             restore_command: "pg_restore -O #{dump_file_location} -d crashbreak-test",
-            setup_database_connection: -> { ActiveRecord::Base.establish_connection(YAML.load(File.read("#{Rails.root}/config/database.yml"))['crashbreak_test']) }
+            setup_database_connection: -> { ActiveRecord::Base.establish_connection(YAML.load(File.read("#{Crashbreak.project_root}/config/database.yml"))['crashbreak_test']) }
         )
       end
 
@@ -57,7 +57,7 @@ module Crashbreak
             restore_command: "mkdir -p #{dump_folder_location} &&
                               tar -xf #{dump_file_location} -C #{dump_folder_location} &&
                               mongorestore --db crashbreak-test #{dump_folder_location}/#{db_name}",
-            setup_database_connection: -> { Mongoid.load!("#{Rails.root}/config/mongoid.yml", :crashbreak_test) }
+            setup_database_connection: -> { Mongoid.load!("#{Crashbreak.project_root}/config/mongoid.yml", :crashbreak_test) }
         )
       end
 

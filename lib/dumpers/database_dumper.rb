@@ -17,7 +17,7 @@ module Crashbreak
     private
 
     def make_directories
-      FileUtils::mkdir_p "#{Rails.root}/tmp/#{error_id}/"
+      FileUtils::mkdir_p "#{Crashbreak.project_root}/tmp/#{error_id}/"
     end
 
     def dump_database

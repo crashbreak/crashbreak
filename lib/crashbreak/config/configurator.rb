@@ -9,6 +9,7 @@ module Crashbreak
     attr_accessor :restorer_options
     attr_accessor :request_spec_file_path
     attr_accessor :request_spec_template_path
+    attr_accessor :project_root
 
     attr_accessor :github_login
     attr_accessor :github_password
@@ -26,6 +27,10 @@ module Crashbreak
 
     def error_serializers
       @error_serializers ||= []
+    end
+
+    def project_root
+      @project_root ||= (Rails.root if defined?(Rails))
     end
 
     def request_spec_file_path

@@ -18,8 +18,8 @@ namespace :crashbreak do
     error_id = ENV['error_id']
 
     unless error_id
-      next unless File.exist?("#{Rails.root}/#{Crashbreak.configurator.request_spec_file_path}")
-      error_id = File.read("#{Rails.root}/#{Crashbreak.configurator.request_spec_file_path}").scan(/error id: \d+/).first.gsub('error id: ', '').to_i
+      next unless File.exist?("#{Crashbreak.project_root}/#{Crashbreak.configurator.request_spec_file_path}")
+      error_id = File.read("#{Crashbreak.project_root}/#{Crashbreak.configurator.request_spec_file_path}").scan(/error id: \d+/).first.gsub('error id: ', '').to_i
     end
 
     service = Crashbreak::GithubIntegrationService.new 'id' => error_id
@@ -35,7 +35,7 @@ namespace :crashbreak do
   end
 
   task run_test: :environment do
-    unless File.exist?("#{Rails.root}/#{Crashbreak.configurator.request_spec_file_path}")
+    unless File.exist?("#{Crashbreak.project_root}/#{Crashbreak.configurator.request_spec_file_path}")
       next puts 'Crashbreak spec not found, skipping.'
     end
 

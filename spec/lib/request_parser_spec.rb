@@ -21,7 +21,7 @@ describe Crashbreak::RequestParser do
   context 'post with body' do
     let(:request_data) { Hash['REQUEST_METHOD' => 'POST', 'PATH_INFO' => '/projects',
                               'HTTP_ACCEPT' => 'text/html', 'HTTP_CACHE_CONTROL' => 'max-age=0',
-                              'action_dispatch.request.request_parameters' => request_parameters.to_json
+                              'rack.request.form_hash' => request_parameters.to_json
     ]}
 
     let(:request_parameters) { Hash[test_parameter: 'test_value', second_test_parameter: 'second_test_value'] }

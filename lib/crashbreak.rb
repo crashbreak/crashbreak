@@ -1,4 +1,3 @@
-require 'rails'
 require 'faraday'
 require 'request_store'
 require 'octokit'
@@ -35,20 +34,16 @@ require 'restorers/database_restorer'
 require 'restorers/state_restorer'
 require 'restorers/request_restorer'
 
+require 'crashbreak/railtie' if defined?(Rails::Railtie)
+
 module Crashbreak
   extend Configurable
 
-  class Railtie < ::Rails::Railtie
-    initializer 'crashbreak.add_middleware' do
-      Rails.application.middleware.use Crashbreak::ExceptionCatcherMiddleware
-    end
-
-    rake_tasks do
-      load 'tasks/crashbreak.rake'
-    end
-  end
-
   def self.root
     File.expand_path '../..', __FILE__
+  end
+
+  def self.project_root
+    self.configurator.project_root
   end
 end
