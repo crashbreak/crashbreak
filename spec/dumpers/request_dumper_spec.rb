@@ -1,4 +1,4 @@
-describe RequestDumper do
+describe Crashbreak::RequestDumper do
   subject { described_class.new }
 
   let(:example_request) { double(:request, env: Hash['REQUEST_URI' => 'example_uri']) }

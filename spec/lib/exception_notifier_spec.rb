@@ -36,11 +36,11 @@ describe Crashbreak::ExceptionNotifier do
 
     context 'with dumpers' do
       let(:dumpers_hash) do
-        { dumpers_data: { 'RequestDumper' => { request: 'example_request_data' } } }
+        { dumpers_data: { 'Crashbreak::RequestDumper' => { request: 'example_request_data' } } }
       end
 
       before(:each) do
-        allow_any_instance_of(described_class).to receive(:dumpers).and_return([RequestDumper.new])
+        allow_any_instance_of(described_class).to receive(:dumpers).and_return([Crashbreak::RequestDumper.new])
       end
 
       it 'sends dump data' do

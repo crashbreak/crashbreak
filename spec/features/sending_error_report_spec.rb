@@ -12,7 +12,7 @@ describe 'Sending error report to server' do
   before(:each) do
     Crashbreak.configure.api_key = project_token
     Crashbreak.configure.error_serializers = [summary_formatter, Crashbreak::EnvironmentVariablesFormatter.new, TestErrorFormatter.new]
-    Crashbreak.configure.dumpers = [RequestDumper.new]
+    Crashbreak.configure.dumpers = [Crashbreak::RequestDumper.new]
 
     allow(crashing_app).to receive(:call).and_raise(example_error)
     allow(example_error).to receive(:backtrace).and_return(%w(example backtrace))
@@ -39,7 +39,7 @@ describe 'Sending error report to server' do
         with(body: dumpers_data.to_json).to_return(status: 200)
   end
 
-  let(:dumpers_data) { Hash[error_report: { dumpers_data: { 'RequestDumper' => example_request.env } }] }
+  let(:dumpers_data) { Hash[error_report: { dumpers_data: { 'Crashbreak::RequestDumper' => example_request.env } }] }
 
   it 'sends error report on exception' do
     expect{ catching_middleware.call(env) }.to raise_error(TestError)

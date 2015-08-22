@@ -2,7 +2,7 @@ require_relative 'test/test_helper.rb'
 
 class ErrorRequestTest < ActionDispatch::IntegrationTest
   def setup
-    @restorers_data = StateRestorer.new('<%= error_id %>').restore
+    @restorers_data = Crashbreak::StateRestorer.new('<%= error_id %>').restore
     @request_parser = Crashbreak::RequestParser.new @restorers_data[:request]
   end
 
