@@ -89,6 +89,39 @@ config.exception_notifier = Crashbreak::ExceptionNotifier.new      # default not
 config.exception_notifier = Crashbreak::ForkExceptionNotifier.new  # creates fork
 ```
 
+## Integrations
+
+### Github
+Crashbreak can automaticaly creates branch with failing request for exception that occurs on your staging / production server. Your part of the job is just pull, run the test and fix the bug!
+```ruby
+config.github_login = ENV['GITHUB_USER']
+config.github_password = ENV['GITHUB_PASSWORD']
+config.github_repo_name = 'crashbreak/heroku-rails-example'
+```
+
+### CI sever
+With CI server you can automatically test your fix on external server. If tests succeed just run crashbreak rake task to resolve the error in our system. If you are using the github integration, the rake task can also create a pull request from branch with error to master.
+```ruby
+after_success:
+  - bundle exec rake crashbreak:resolve_error
+```
+
+### AWS
+Do not send any private / sensitive data to crashbreak, instead of this use your AWS to store it and send us only url or file name. AWS is required for database dumper and restorer.
+```ruby
+config.dumper_options = {
+  aws_bucket_name: 'cb-test-app',
+  aws_region: 'us-east-1',      # default: ENV['AWS_REGION']
+  aws_access_key_id: 'xxx',     # default: ENV['AWS_ACCESS_KEY_ID']
+  aws_secret_access_key: 'xxx', # default: ENV['AWS_SECRET_ACCESS_KEY']
+}
+```
+
+## Adapt crashbreak to your system and flow!
+Read more about flow and extensions [here](http://www.crashbreak.com/how_we_use_crashbreak/).
+
+Create your own plugin and improve current functionality - [become a collaborator!](http://www.crashbreak.com/extensions#contributing)
+
 ## Contributing
 
 1. Fork it ( https://github.com/crashbreak/crashbreak/fork )
