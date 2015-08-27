@@ -122,6 +122,11 @@ Read more about flow and extensions [here](http://www.crashbreak.com/how_we_use_
 
 Create your own plugin and improve current functionality - [become a collaborator!](http://www.crashbreak.com/extensions#contributing)
 
+### Request store
+Crashbreak uses [request store gem](https://github.com/steveklabnik/request_store) to store data and pass it to serializers and dumpers. By default it stores controller and exception instance and request object but you can add more.
+
+#### All crashbreak options can be found [here](https://github.com/crashbreak/crashbreak/blob/master/lib/crashbreak/config/configurator.rb).
+
 ## Contributing
 
 1. Fork it ( https://github.com/crashbreak/crashbreak/fork )
