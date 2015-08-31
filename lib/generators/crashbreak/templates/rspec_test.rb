@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe 'error id: <%= error_id %>', type: :request do
 
   let(:restorers_data) { Crashbreak::StateRestorer.new('<%= error_id %>').restore }
