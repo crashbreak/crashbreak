@@ -16,6 +16,12 @@ Generate crashbreak initializer:
 
     rails generate crashbreak:install your_api_key
 
+If you want to use database dumper add this lines to datbase.yml file:
+
+    crashbreak_test:
+      <<: *default
+      database: crashbreak-test
+
 ## Example crashbreak.rb (initializer)
 [Rails example](https://github.com/crashbreak/heroku-rails-example/blob/master/config/initializers/crashbreak.rb)
 
