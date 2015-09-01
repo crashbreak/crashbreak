@@ -9,6 +9,7 @@ module Crashbreak
     attr_accessor :restorer_options
     attr_accessor :request_spec_file_path
     attr_accessor :request_spec_template_path
+    attr_accessor :request_spec_run_command
     attr_accessor :project_root
 
     attr_accessor :github_login
@@ -55,6 +56,10 @@ module Crashbreak
 
     def restorer_options
       @restorer_options ||= {}
+    end
+
+    def request_spec_run_command
+      @request_spec_run_command ||= 'bundle exec rspec '
     end
   end
 end

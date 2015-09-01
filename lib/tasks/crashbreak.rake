@@ -39,7 +39,7 @@ namespace :crashbreak do
       next puts 'Crashbreak spec not found, skipping.'
     end
 
-    system("bundle exec rspec #{Crashbreak.configurator.request_spec_file_path}") or raise 'Crashbreak test failed.'
+    system("#{Crashbreak.configurator.request_spec_run_command}#{Crashbreak.configurator.request_spec_file_path}") or raise 'Crashbreak test failed.'
   end
 
   task generate_test: :environment do
