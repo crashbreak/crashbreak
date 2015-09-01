@@ -29,6 +29,4 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'request_store', '>= 0'
   spec.add_runtime_dependency 'octokit', '>= 0'
   spec.add_runtime_dependency 'aws-sdk', '~> 2'
-  spec.add_runtime_dependency 'sidekiq', '>= 0'
-  spec.add_runtime_dependency 'oj', '>= 0'
 end
