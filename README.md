@@ -87,6 +87,9 @@ def restore
 end
 ```
 
+### Predefined settings
+Dumping your database or any other part of the system requires config for dumpers, for example DatabaseDumper needs a command for dump db (e.g pg_dump for postgresql). There is a file with all predefined settings that you can use if you have standard setup. Please check [this file](https://github.com/crashbreak/crashbreak/blob/master/lib/crashbreak/predefined_settings.rb). For be sure that all commands run corretcly on your staging server please run it manually first and see the result.
+
 ### Exception notifier
 Dumping your system can take some time, in order to improve request response you can use different exception notifier.
 
