@@ -1,3 +1,5 @@
+require 'json'
+
 module Crashbreak
   class DeploysRepository
     BASE_URL = 'http://crashbreak.herokuapp.com/api'

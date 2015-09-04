@@ -1,3 +1,6 @@
+require 'faraday'
+require 'crashbreak/deploys_repository'
+
 namespace :crashbreak do
 
   desc 'Send the deployment notification to Crashbreak.'
@@ -9,7 +12,7 @@ namespace :crashbreak do
           head: fetch(:current_revision)
       }
 
-      Crashbreak::DeployRepository.new(crashbreak_token, deploy_hash).create
+      Crashbreak::DeploysRepository.new(fetch(:crashbreak_token), deploy_hash).create
       info 'Notification complete.'
     end
   end
