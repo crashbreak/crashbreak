@@ -126,6 +126,23 @@ config.dumper_options = {
 }
 ```
 
+### Deploy tracking 
+#### Capistrano 3
+```ruby
+# Capfile
+require 'crashbreak/capistrano3'
+
+# deploy.rb
+set :crashbreak_token, ENV['CRASHBREAK_TOKEN']
+after 'deploy:finished', 'crashbreak:deploy'
+```
+
+#### Heroku
+You can track deploys by enable free heroku addon:
+```
+heroku addons:add deployhooks:http --url="http://www.crashbreak.com/api/projects/YOU_API_KEY/deploys/?environment=production"
+```
+
 ## Adapt crashbreak to your system and flow!
 Read more about flow and extensions [here](http://www.crashbreak.com/how_we_use_crashbreak/).
 
