@@ -12,6 +12,7 @@ module Crashbreak
     attr_accessor :request_spec_run_command
     attr_accessor :project_root
 
+    attr_accessor :github_integration
     attr_accessor :github_login
     attr_accessor :github_password
     attr_accessor :github_repo_name
@@ -40,6 +41,10 @@ module Crashbreak
 
     def request_spec_template_path
       @request_spec_template_path ||= "#{Crashbreak.root}/lib/generators/crashbreak/templates/rspec_test.rb"
+    end
+
+    def github_integration
+      @github_integration ||= false
     end
 
     def github_development_branch

@@ -103,6 +103,7 @@ config.exception_notifier = Crashbreak::ForkExceptionNotifier.new  # creates for
 ### GitHub
 CrashBreak can automatically create a branch with a failing request for an exception that occurs on your staging / production server. Your part of the job is just to pull, run the test and fix the bug!
 ```ruby
+config.github_integration = true
 config.github_login = ENV['GITHUB_USER']
 config.github_password = ENV['GITHUB_PASSWORD']
 config.github_repo_name = 'crashbreak/heroku-rails-example'

@@ -6,7 +6,7 @@ module Crashbreak
       if created_error_is_unique?
         dump_system_and_update_report
 
-        GithubIntegrationService.new(server_response).push_test if Crashbreak.configure.github_repo_name.present?
+        GithubIntegrationService.new(server_response).push_test if Crashbreak.configure.github_integration
       end
     end
 
