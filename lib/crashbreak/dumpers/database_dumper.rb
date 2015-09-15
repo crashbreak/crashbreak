@@ -21,7 +21,7 @@ module Crashbreak
     end
 
     def dump_database
-      system(gsub_error_id(dump_command))
+      system(dump_command)
     end
 
     def upload_dump
@@ -37,14 +37,14 @@ module Crashbreak
     end
 
     def dump_location
-      gsub_error_id(Crashbreak.configure.dumper_options[:dump_location])
+      inject_error_id(Crashbreak.configure.dumper_options[:dump_location])
     end
 
     def dump_command
-      Crashbreak.configure.dumper_options[:dump_command]
+      inject_error_id(Crashbreak.configure.dumper_options[:dump_command])
     end
 
-    def gsub_error_id(text)
+    def inject_error_id(text)
       text.gsub(':error_id:', error_id)
     end
 
