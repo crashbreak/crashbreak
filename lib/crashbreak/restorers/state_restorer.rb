@@ -35,5 +35,4 @@ module Crashbreak
       restorer.to_s.gsub('Crashbreak::', '').gsub('Restorer', '').underscore.to_sym
     end
   end
-
 end

@@ -1,7 +1,5 @@
 module Crashbreak
-  class DumpersDataRepository
-    BASE_URL = 'http://crashbreak.herokuapp.com/api'
-
+  class DumpersDataRepository < BaseRepository
     def initialize(error_id)
       @error_id = error_id
     end
@@ -25,10 +23,6 @@ module Crashbreak
 
     def request_url
       "#{BASE_URL}/projects/#{project_token}/errors/#{@error_id}/dumpers_data"
-    end
-
-    def project_token
-      Crashbreak.configure.api_key
     end
   end
 end

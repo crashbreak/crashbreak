@@ -1,7 +1,5 @@
 module Crashbreak
-  class ExceptionsRepository
-    BASE_URL = 'http://crashbreak.herokuapp.com/api'
-
+  class ExceptionsRepository < BaseRepository
     def create(error_report_hash)
       JSON.parse(post_request(error_report_hash).body)
     end
@@ -46,10 +44,6 @@ module Crashbreak
 
     def resolve_request_url(error_id)
       "#{BASE_URL}/projects/#{project_token}/errors/#{error_id}"
-    end
-
-    def project_token
-      Crashbreak.configure.api_key
     end
   end
 end

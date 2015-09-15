@@ -1,9 +1,7 @@
 require 'json'
 
 module Crashbreak
-  class DeploysRepository
-    BASE_URL = 'http://crashbreak.herokuapp.com/api'
-
+  class DeploysRepository < BaseRepository
     def initialize(project_token, deploy_hash)
       @project_token = project_token
       @deploy_hash = deploy_hash
