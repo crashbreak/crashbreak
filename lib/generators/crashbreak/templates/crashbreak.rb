@@ -19,7 +19,7 @@ Crashbreak.configure do |config|
   }
 
   # Config for GitHub integration
-  config.github_integration = true
+  config.github_integration = false
   config.github_login = ENV['GITHUB_USER']
   config.github_password = ENV['GITHUB_PASSWORD']
   config.github_repo_name = ENV['GITHUB_REPO_NAME']
