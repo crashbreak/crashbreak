@@ -24,12 +24,12 @@ require 'crashbreak/tiny_exception_notifier'
 require 'crashbreak/fork_exception_notifier'
 require 'crashbreak/predefined_settings'
 
-require 'dumpers/database_dumper'
-require 'dumpers/request_dumper'
+require 'crashbreak/dumpers/database_dumper'
+require 'crashbreak/dumpers/request_dumper'
 
-require 'restorers/database_restorer'
-require 'restorers/state_restorer'
-require 'restorers/request_restorer'
+require 'crashbreak/restorers/database_restorer'
+require 'crashbreak/restorers/state_restorer'
+require 'crashbreak/restorers/request_restorer'
 
 require 'crashbreak/railtie' if defined?(Rails::Railtie)
 
