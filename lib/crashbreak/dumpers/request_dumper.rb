@@ -1,5 +1,5 @@
 module Crashbreak
-  class RequestDumper < Crashbreak::BasicFormatter
+  class RequestDumper < Crashbreak::BasicSerializer
     def dump
       sanitize_request_hash
     end

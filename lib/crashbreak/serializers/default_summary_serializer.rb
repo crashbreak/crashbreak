@@ -1,5 +1,5 @@
 module Crashbreak
-  class DefaultSummaryFormatter < SummaryFormatter
+  class DefaultSummarySerializer < SummarySerializer
     def summary
       {
           action: request.env['PATH_INFO'],

@@ -5,7 +5,7 @@ Crashbreak.configure do |config|
   config.exception_notifier = Crashbreak::ExceptionNotifier.new
 
   # Serialize an exception in the best way for your project, add custom tabs, change default summary.
-  config.error_serializers = [Crashbreak::DefaultSummaryFormatter.new, Crashbreak::EnvironmentVariablesFormatter.new]
+  config.error_serializers = [Crashbreak::DefaultSummarySerializer.new, Crashbreak::EnvironmentVariablesSerializer.new]
 
   # Specify dumpers list for future restoring process.
   config.dumpers = [Crashbreak::RequestDumper.new, Crashbreak::DatabaseDumper.new]

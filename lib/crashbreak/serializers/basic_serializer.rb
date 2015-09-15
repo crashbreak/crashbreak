@@ -1,5 +1,5 @@
 module Crashbreak
-  class BasicFormatter
+  class BasicSerializer
 
     protected
 

@@ -1,7 +1,7 @@
 require 'fileutils'
 
 module Crashbreak
-  class DatabaseDumper < BasicFormatter
+  class DatabaseDumper < BasicSerializer
     include Crashbreak::AWS
 
     def dump

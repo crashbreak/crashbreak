@@ -33,10 +33,10 @@ If you want to use database dumper add those lines to datbase.yml file:
 Each serializer converts an exception to JSON request, by customizing this you can create your own exception page in crashbreak.com. There are two types of serializers - summary serializer and hash serializer. 
 
 #### Summary serializer
-Summary serializer specifies the first tab on the exception show view and data included in email. This is an example of default summary formatter:
+Summary serializer specifies the first tab on the exception show view and data included in email. This is an example of default summary serializer:
 
 ```ruby
-class DefaultSummaryFormatter < SummaryFormatter
+class DefaultSummarySerializer < SummarySerializer
   def summary
     {
       action: request.env['PATH_INFO'],
@@ -53,7 +53,7 @@ end
 By using hash serializer you can serialize your custom data into hash and display it in a new tab on our web page. For example this is the ```EnvironmentVariablesSerializer```:
 
 ```ruby
-class EnvironmentVariablesFormatter < HashFormatter
+class EnvironmentVariablesSerializer < HashSerializer
   hash_name :environment
 
   def hash_value

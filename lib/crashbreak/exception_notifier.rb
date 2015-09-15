@@ -35,7 +35,7 @@ module Crashbreak
     end
 
     def serializers
-      [BasicInformationFormatter.new] + Crashbreak.configure.error_serializers
+      [BasicInformationSerializer.new] + Crashbreak.configure.error_serializers
     end
 
     def exceptions_repository

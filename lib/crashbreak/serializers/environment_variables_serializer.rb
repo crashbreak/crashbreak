@@ -1,5 +1,5 @@
 module Crashbreak
-  class EnvironmentVariablesFormatter < HashFormatter
+  class EnvironmentVariablesSerializer < HashSerializer
     hash_name :environment
 
     def hash_value

@@ -1,4 +1,4 @@
-describe Crashbreak::DefaultSummaryFormatter do
+describe Crashbreak::DefaultSummarySerializer do
   subject { described_class.new }
 
   let(:example_request) { double(:request, env: request_env) }

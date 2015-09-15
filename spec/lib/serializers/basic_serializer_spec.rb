@@ -1,4 +1,4 @@
-describe Crashbreak::BasicFormatter do
+describe Crashbreak::BasicSerializer do
   subject { described_class.new }
 
   let(:example_request) { double(:request) }

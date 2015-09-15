@@ -8,7 +8,7 @@ module Crashbreak
     private
 
     def serializers
-      [BasicInformationFormatter.new]
+      [BasicInformationSerializer.new]
     end
 
     def dumpers
