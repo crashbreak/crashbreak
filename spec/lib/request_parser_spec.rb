@@ -29,5 +29,12 @@ describe Crashbreak::RequestParser do
     it 'yields with request data' do
       expect{|y| subject.request_data(&y) }.to yield_with_args(:post, '/projects', request_parameters, { 'ACCEPT' => 'text/html', 'CACHE_CONTROL' => 'max-age=0' })
     end
+
+    it 'fallbacks to RAW_POST_DATA if rack.request.form_hash is missing' do
+      request_data.delete('rack.request.form_hash')
+      request_data['RAW_POST_DATA'] = request_parameters.to_json
+
+      expect{|y| subject.request_data(&y) }.to yield_with_args(:post, '/projects', request_parameters, { 'ACCEPT' => 'text/html', 'CACHE_CONTROL' => 'max-age=0' })
+    end
   end
 end
