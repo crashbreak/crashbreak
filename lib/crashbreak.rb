@@ -5,6 +5,7 @@ require 'aws-sdk'
 
 require 'crashbreak/version'
 require 'crashbreak/exception_notifier'
+require 'crashbreak/restorers_middleware'
 require 'crashbreak/exception_catcher_middleware'
 require 'crashbreak/request_parser'
 require 'crashbreak/github_integration_service'
@@ -30,10 +31,12 @@ require 'crashbreak/repositories/dumpers_data_repository'
 
 require 'crashbreak/dumpers/database_dumper'
 require 'crashbreak/dumpers/request_dumper'
+require 'crashbreak/dumpers/session_dumper'
 
 require 'crashbreak/restorers/database_restorer'
 require 'crashbreak/restorers/state_restorer'
 require 'crashbreak/restorers/request_restorer'
+require 'crashbreak/restorers/session_restorer'
 
 require 'crashbreak/railtie' if defined?(Rails::Railtie)
 
