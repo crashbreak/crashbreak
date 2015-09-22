@@ -8,7 +8,7 @@ module Crashbreak
       begin
         @app.call(env)
       rescue ::Exception => exception
-        unless skip_exception?
+        unless skip_exception?(exception)
           RequestStore.store[:exception] = exception
           store_variables_from_env env
           exception_notifier.notify
@@ -33,8 +33,9 @@ module Crashbreak
       Rack::Request.new(env)
     end
 
-    def skip_exception?
-      Crashbreak.configure.ignored_environments.include?(ENV['RACK_ENV'] || ENV['RAILS_ENV'])
+    def skip_exception?(exception)
+      Crashbreak.configure.ignored_environments.include?(ENV['RACK_ENV'] || ENV['RAILS_ENV']) ||
+      Crashbreak.configure.ignored_exceptions.include?(exception.class)
     end
   end
 end

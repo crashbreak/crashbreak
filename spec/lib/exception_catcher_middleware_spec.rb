@@ -33,24 +33,32 @@ describe Crashbreak::ExceptionCatcherMiddleware do
     end
   end
 
-  context 'app that raises exception but current env is ignored' do
+  context 'app that raises exception but should be ignored' do
     subject { described_class.new app_with_crashes }
 
     before(:each) do
       expect_any_instance_of(Crashbreak::ExceptionNotifier).to_not receive(:notify)
     end
 
-      it 'skips development environment by default' do
-        expect(ENV).to receive(:[]).with('RACK_ENV').and_return('development')
-        expect{ subject.call(env) }.to raise_error(error.class)
-      end
+    it 'skips development environment by default' do
+      expect(ENV).to receive(:[]).with('RACK_ENV').and_return('development')
 
-      it 'skips all environments in config' do
-        Crashbreak.configure.ignored_environments = ['staging']
+      expect{ subject.call(env) }.to raise_error(error.class)
+    end
 
-        expect(ENV).to receive(:[]).with('RACK_ENV').and_return('staging')
-        expect{ subject.call(env) }.to raise_error(error.class)
-      end
+    it 'skips all environments in config' do
+      Crashbreak.configure.ignored_environments = ['staging']
+      expect(ENV).to receive(:[]).with('RACK_ENV').and_return('staging')
+
+      expect{ subject.call(env) }.to raise_error(error.class)
+    end
+
+    it 'skip all exception in config' do
+      allow(Crashbreak.configurator).to receive(:ignored_environments).and_return([])
+      Crashbreak.configure.ignored_exceptions = [error.class]
+
+      expect{ subject.call(env) }.to raise_error(error.class)
+    end
   end
 
   context 'app that works without exceptions' do
