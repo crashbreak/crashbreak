@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.version       = Crashbreak::VERSION
   spec.authors       = ['Michal Janeczek']
   spec.email         = ['michal.janeczek@ymail.com']
-  spec.summary       = %q{Take a break from crashes!}
-  spec.description   = %q{Maybe later... :)}
+  spec.summary       = %q{Reproduce exceptions as failing tests}
+  spec.description   = %q{Reproduce exceptions as failing tests}
   spec.homepage      = 'http://crashbreak.com'
   spec.license       = 'MIT'
 
