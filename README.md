@@ -109,7 +109,7 @@ config.github_password = ENV['GITHUB_PASSWORD']
 config.github_repo_name = 'crashbreak/heroku-rails-example'
 ```
 
-### CI sever
+### CI server
 With the CI server you can automatically test your fix on an external server. If tests succeed, just run the CrashBreak rake task to resolve the error in our system. If you are using the GitHub integration, the rake task can also create a pull request from a branch with error to a master branch.
 ```ruby
 after_success:
