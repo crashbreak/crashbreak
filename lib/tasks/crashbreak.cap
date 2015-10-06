@@ -1,5 +1,6 @@
 require 'faraday'
-require 'crashbreak/deploys_repository'
+require 'crashbreak/repositories/base_repository'
+require 'crashbreak/repositories/deploys_repository'
 
 namespace :crashbreak do
 
