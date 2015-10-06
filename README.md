@@ -87,6 +87,42 @@ def restore
 end
 ```
 
+### DatabaseDumper config
+To work with DatabaseDumper you need to provide the storage for dump file and proper dump commands for your database. Read about AWS setup [here](https://github.com/crashbreak/crashbreak#aws). Default dump commands are declared in [predifined settings](https://github.com/crashbreak/crashbreak#predefined-settings).
+
+We have already predefined configs for postgresql, heroku-postgresql and mongodb.
+
+```ruby
+# initializers/crashbreak.rb
+Crashbreak::PredefinedSettings.postgresql("crashbreak_rails_example_#{Rails.env}")
+```
+
+You can use predefined settings and override only some options (e.g setup_database_connection for a different way to connect to the database):
+
+```ruby
+config.restorer_options = {
+  setup_database_connection: -> { CustomDbConnnector.connect!('crashbreak_test') }
+}
+
+Crashbreak::PredefinedSettings.postgresql("crashbreak_rails_example_#{Rails.env}")
+```
+
+Example custom config for dumper and restorer:
+
+```ruby
+ config.dumper_options = {
+      dump_location: '/dumps/:error_id:/db.dump', # error_id is injected automatically
+      dump_command: 'pg_dump -Fc my-database-name > /dumps/:error_id:/db.dump'
+  }
+  
+  config.restorer_options = {
+    drop_test_database_command: 'dropdb crashbreak-test',
+    create_test_database_command: 'createdb -T template0 crashbreak-test',
+    restore_command: "pg_restore -O /dumps/:error_id:/db.dump -d crashbreak-test",
+    setup_database_connection: -> { ActiveRecord::Base.establish_connection(YAML.load(File.read("#{Crashbreak.project_root}/config/database.yml"))['crashbreak_test']) }
+  }
+```
+
 ### Predefined settings
 Dumping your database or any other part of the system requires configuration for dumpers, for example DatabaseDumper needs a command for dump db (e.g pg_dump for postgresql). There is a file with all predefined settings that you can use if you have standard setup. Please check [this file](https://github.com/crashbreak/crashbreak/blob/master/lib/crashbreak/predefined_settings.rb). To be sure that all commands run correctly on your staging server please run it manually first and see the result.
 
