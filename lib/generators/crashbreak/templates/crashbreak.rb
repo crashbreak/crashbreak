@@ -8,7 +8,7 @@ Crashbreak.configure do |config|
   config.error_serializers = [Crashbreak::DefaultSummarySerializer.new, Crashbreak::EnvironmentVariablesSerializer.new]
 
   # Specify dumpers list for future restoring process.
-  config.dumpers = [Crashbreak::RequestDumper.new, Crashbreak::DatabaseDumper.new]
+  config.dumpers = [Crashbreak::RequestDumper.new] # Crashbreak::DatabaseDumper.new requires additional setup (check README)
 
   # Config for all dumpers (aws is required for DatabaseDumper)
   config.dumper_options = {
