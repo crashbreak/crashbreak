@@ -1,4 +1,4 @@
-# CrashBreak [![Version](http://img.shields.io/gem/v/crashbreak.svg)                               ](https://rubygems.org/gems/crashbreak) [![Build Status](https://travis-ci.org/crashbreak/crashbreak.svg?branch=master)](https://travis-ci.org/crashbreak/crashbreak) [![Code Climate](https://codeclimate.com/github/crashbreak/crashbreak/badges/gpa.svg)](https://codeclimate.com/github/crashbreak/crashbreak)
+# CrashBreak [![Version](http://img.shields.io/gem/v/crashbreak.svg)                               ](https://rubygems.org/gems/crashbreak) [![Build Status](https://codeship.com/projects/181725/status?branch=master)](https://codeship.com/projects/181725) [![Code Climate](https://codeclimate.com/github/crashbreak/crashbreak/badges/gpa.svg)](https://codeclimate.com/github/crashbreak/crashbreak)
 
 CrashBreak gem is the exception notifier for integration with [crashbreak.com](http://crashbreak.com) for ruby applications.
 
